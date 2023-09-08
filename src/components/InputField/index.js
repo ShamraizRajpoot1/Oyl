@@ -74,7 +74,7 @@ const InputField = props => {
           onChangeText={props.onChangeText}
           onFocus={() => {if (props.calendar) { setDatePicker(true)}
           else if(props.location) {setLocation(true)}
-          else if(props.oilType) {setOilType(true)}
+          else if(props.OilType) {setOilType(true)}
         }}
           value={props.value}
           keyboardType={props.type}
@@ -129,7 +129,7 @@ const InputField = props => {
                   onPress={toggleLocation}
                 />
               )}
-              {OilType && (
+              {oilType && (
                 <OilType
                   isVisible={oilType}
                   onBackdropPress={toggleOilType}

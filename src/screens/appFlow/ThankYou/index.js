@@ -1,6 +1,5 @@
 import { Image, ImageBackground, StyleSheet, StatusBar, Text, View, TouchableOpacity,Linking } from 'react-native'
 import React,{useEffect} from 'react'
-import { AppStyles } from '../../../services/utilities/AppStyle'
 import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
 import { scale } from 'react-native-size-matters'
 import Button from '../../../components/Button'

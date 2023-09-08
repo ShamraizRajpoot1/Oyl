@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -24,25 +25,43 @@ import {AppStyles} from '../../../services/utilities/AppStyle';
 import {appImages, appIcons} from '../../../services/utilities/assets';
 import {colors} from '../../../services/utilities/colors';
 import {AuthContext} from '../../../navigation/AuthProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = ({navigation}) => {
   const {login, user} = useContext(AuthContext);
-
-  const Home = () => {
-    {login(email, password) ?  navigation.navigate('AppStack') : Alert.alert('Please check your Email or Password Again')}
-
-  };
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const Home = async () => {
+    if (!email || !password) {
+      Alert.alert('Please check email and password ');
+    }
+    setLoading(true);
+    try {
+      await login(email, password);
+      {
+        user
+          ? (await AsyncStorage.setItem('Token', user.uid),
+            navigation.navigate('AppStack'))
+          : null;
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const create = () => {
     navigation.navigate('SignUp');
   };
+  
   useEffect(() => {
-    if(user) {
-      navigation.navigate('AppStack')
-    }
-
-  }, [user])
+  const id = AsyncStorage.getItem('Token')
+  console.log("id" ,id)
+    
+  }, []);
   return (
     <ImageBackground
       source={appImages.background}
@@ -51,55 +70,61 @@ const SignIn = ({navigation}) => {
         style={{flex: 1}}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}>
-        <ScrollView
-          style={{flex: 1}}
-          contentContainerStyle={AppStyles.contentContainer}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={{flex: 1}}>
-              <View style={styles.logo}>
-                <Image source={appImages.logo} style={AppStyles.Image} />
-              </View>
-              <View style={styles.field}>
-                <Text style={AppStyles.centerMedium}>
-                  Enter your phone number to log in!
-                </Text>
-                <View style={{marginVertical: responsiveScreenHeight(2)}}>
-                  <InputField
-                    label="Email"
-                    placeholder="Please enter your email"
-                    onChangeText={setEmail}
-                    value={email}
-                    type="default"
-                  />
-                  <InputField
-                    label="password"
-                    placeholder="Enter your Password"
-                    onChangeText={setPassword}
-                    value={password}
-                    secureTextEntry={true}
-                    type="default"
-                  />
+        {loading ? (
+          <View style={AppStyles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.buttonGradiant1} />
+          </View>
+        ) : (
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={AppStyles.contentContainer}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View style={{flex: 1}}>
+                <View style={styles.logo}>
+                  <Image source={appImages.logo} style={AppStyles.Image} />
                 </View>
-                <View style={styles.account}>
-                  <Text style={AppStyles.lighttext}>
-                    Do not have an account?{' '}
+                <View style={styles.field}>
+                  <Text style={AppStyles.centerMedium}>
+                    Enter your phone number to log in!
                   </Text>
-                  <TouchableOpacity onPress={create}>
-                    <Text style={AppStyles.semiboldtext}>Create</Text>
-                  </TouchableOpacity>
+                  <View style={{marginVertical: responsiveScreenHeight(2)}}>
+                    <InputField
+                      label="Email"
+                      placeholder="Please enter your email"
+                      onChangeText={setEmail}
+                      value={email}
+                      type="default"
+                    />
+                    <InputField
+                      label="password"
+                      placeholder="Enter your Password"
+                      onChangeText={setPassword}
+                      value={password}
+                      secureTextEntry={true}
+                      type="default"
+                    />
+                  </View>
+                  <View style={styles.account}>
+                    <Text style={AppStyles.lighttext}>
+                      Do not have an account?{' '}
+                    </Text>
+                    <TouchableOpacity onPress={create}>
+                      <Text style={AppStyles.semiboldtext}>Create</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={styles.button}>
+                  <Button
+                    text="LUMB ME UP!"
+                    color={colors.buttonGradiant1}
+                    textColor={colors.text4}
+                    onPress={Home}
+                  />
                 </View>
               </View>
-              <View style={styles.button}>
-                <Button
-                  text="LUMB ME UP!"
-                  color={colors.buttonGradiant1}
-                  textColor={colors.text4}
-                  onPress={Home}
-                />
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </ScrollView>
+            </TouchableWithoutFeedback>
+          </ScrollView>
+        )}
       </KeyboardAvoidingView>
     </ImageBackground>
   );

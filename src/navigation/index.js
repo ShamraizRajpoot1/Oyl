@@ -6,11 +6,13 @@ import auth from '@react-native-firebase/auth';
 import Auth from './Auth';
 import App from './App';
 import {AuthContext} from './AuthProvider';
+import Splash from '../screens/authFlow/Splash';
 
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
   const {user, setUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   const onAuthStateChanged = user => {
     setUser(user);
@@ -25,17 +27,16 @@ const Navigation = () => {
   if (initializing) return null;
 
   
-  
+
+    
+   
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* {user ? (
-          <Stack.Screen name="AppStack" component={App} />
-        ) : (
-          <Stack.Screen name="AuthStack" component={Auth} />
-        )} */}
-        <Stack.Screen name="AuthStack" component={Auth} /> 
-         <Stack.Screen name="AppStack" component={App} />
+        <Stack.Screen name='Splash' component={Splash} />
+        <Stack.Screen name="AuthStack" component={Auth} />
+        <Stack.Screen name="AppStack" component={App} />
       </Stack.Navigator>
     </NavigationContainer>
   );

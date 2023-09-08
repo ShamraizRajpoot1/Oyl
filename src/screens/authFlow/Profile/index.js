@@ -1,18 +1,15 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {
   View,
-  Text,
   StyleSheet,
   ImageBackground,
-  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TouchableWithoutFeedback,
-  TouchableOpacity,
-  StatusBar
+  BackHandler
 } from 'react-native';
 import InputField from '../../../components/InputField';
 import Button from '../../../components/Button';
@@ -32,7 +29,10 @@ const Profile = ({navigation}) => {
   const [vehicleYear, setVehicleYear] = useState('');
   const [vehicleColor, setVehicleColor] = useState('');
   const [vehicleMileage, setVehicleMileage] = useState('');
-  const Home = () => {
+  const handleBackPress = () => {
+    return true; 
+  };
+  const Home = async() => {
     firestore ()
         .collection('Users')
         .doc(user.uid)
@@ -49,16 +49,24 @@ const Profile = ({navigation}) => {
           vehicleColor: vehicleColor,
           vehicleMileage: vehicleMileage
           }
-          
         })
-        .then(() => {
+        .then(async() => {
           console.log('User Registered');
+          await AsyncStorage.setItem('Token', user.uid)
+          navigation.navigate('AppStack');
         })
         .catch(error => {
           console.log('Something went wrong', error);
         });
-    navigation.navigate('AppStack');
+    
   };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress
+    );
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <>

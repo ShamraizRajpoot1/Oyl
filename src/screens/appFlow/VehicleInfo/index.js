@@ -108,7 +108,6 @@ const VehicleInfo = ({navigation}) => {
       };
       fetchUserProfileData();
     } else {
-      // Clear the fields when isChecked is false
       setVehicleMake('');
       setVehicleModel('');
       setVehicleYear('');
@@ -123,8 +122,8 @@ const VehicleInfo = ({navigation}) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}>
         {isLoading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
+          <View style={AppStyles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.buttonGradiant1} />
           </View>
         ) : (
           <ScrollView
@@ -262,9 +261,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+ 
 });

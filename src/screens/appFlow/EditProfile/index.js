@@ -35,11 +35,10 @@ const EditProfile = ({navigation}) => {
   const [vehicleMileage, setVehicleMileage] = useState('');
   const [optionModalVisible, setOptionModalVisible] = useState(false);
 
-  const login = () => {
-    firestore ()
-        .collection('Users')
-        .doc(user.uid)
-        .set({
+  const update = () => {
+    const docRef = firestore().collection('Users').doc(user.uid);
+
+    docRef.update({
           userId: user.uid,
           email: user.email,
           firstName: firstName,
@@ -182,7 +181,7 @@ const EditProfile = ({navigation}) => {
                       text="DONE"
                       color={colors.buttonGradiant2}
                       textColor={colors.text4}
-                      onPress={login}
+                      onPress={update}
                     />
                     
                   </View>

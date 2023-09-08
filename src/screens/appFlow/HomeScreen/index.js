@@ -8,8 +8,9 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Alert,
+  BackHandler
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
@@ -26,7 +27,12 @@ import {colors} from '../../../services/utilities/colors';
 import {fontFamily, fontSize} from '../../../services/utilities/fonts';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../../navigation/AuthProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Home = ({navigation}) => {
+  const handleBackPress = () => {
+    BackHandler.exitApp();
+    return true;
+  };
   const {user} = useContext(AuthContext)
   const getTime = () => {
     const formattedHour =  hours.toString();
@@ -73,6 +79,13 @@ const Home = ({navigation}) => {
     const formattedDate = date.toDateString(); 
     setSelectedDate(formattedDate);
   };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress
+    );
+    return () => backHandler.remove();
+  }, []);
   return (
     <>
       <View style={{flex: 1, backgroundColor: colors.background2}}>

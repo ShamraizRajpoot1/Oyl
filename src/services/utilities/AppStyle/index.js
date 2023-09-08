@@ -129,4 +129,9 @@ export const AppStyles = StyleSheet.create({
         marginLeft: responsiveScreenWidth(7),
         flexDirection: 'row',
       },
+      loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
 })

@@ -4,7 +4,6 @@ import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } fro
 import { scale } from 'react-native-size-matters';
 import { AppStyles } from '../../services/utilities/AppStyle';
 import { colors } from '../../services/utilities/colors';
-import { fontSize } from '../../services/utilities/fonts';
 
 const DateView = ({ dayText, date, month, isSelected, onPress }) => {
     const backgroundColor = isSelected ? colors.background3 : colors.background2;
@@ -28,16 +27,10 @@ container: {
     backgroundColor:colors.background2,
     elevation: 7,
     marginLeft:responsiveScreenHeight(2),
-    borderRadius: scale(10),
+    borderRadius: scale(8),
     justifyContent: 'center',
     alignItems: 'center',
     
 },
-// text:{
-//     color:colors.lebal1,
-//     fontWeight: 'bold',
-//     fontSize: fontSize.lebal,
-//     marginTop:2
-// }
 
 })

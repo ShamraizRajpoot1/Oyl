@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, ImageBackground, Text, StyleSheet } from 'react-native'; // Import ImageBackground
-import { appIcons, appImages } from '../../services/utilities/assets'; // Import appImages
+import { View, Image, TouchableOpacity, ImageBackground, Text, StyleSheet } from 'react-native'; 
+import { appIcons, appImages } from '../../services/utilities/assets'; 
 import { responsiveFontSize, responsiveScreenHeight } from 'react-native-responsive-dimensions';
 import { scale } from 'react-native-size-matters';
 import { colors } from '../../services/utilities/colors';

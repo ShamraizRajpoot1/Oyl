@@ -24,12 +24,12 @@ import Button from '../../../components/Button';
 import Header from '../../../components/Header/Header1';
 import {AppStyles} from '../../../services/utilities/AppStyle';
 import {appImages, appIcons} from '../../../services/utilities/assets';
-import { colors } from '../../../services/utilities/colors';
-import AuthProvider, { AuthContext } from '../../../navigation/AuthProvider';
-import { fontFamily } from '../../../services/utilities/fonts';
+import {colors} from '../../../services/utilities/colors';
+import AuthProvider, {AuthContext} from '../../../navigation/AuthProvider';
+import {fontFamily} from '../../../services/utilities/fonts';
 
 const SignUp = ({navigation}) => {
-  const {register} =useContext(AuthContext);
+  const {register,user} = useContext(AuthContext);
   const [isChecked, setIsChecked] = useState(true);
   const toggleCheckbox = () => {
     setIsChecked(prevChecked => !prevChecked);
@@ -53,18 +53,21 @@ const SignUp = ({navigation}) => {
     navigation.navigate('PrivacyPolicy');
   };
   const letsGo = () => {
-    if(isChecked){
-    register(email,password)?
-    navigation.navigate('Profile') : Alert.alert("please check your email or password")}
-    else {
-      Alert.alert("Please Accept Terms of condition and privacy policy")
+    if (isChecked) {
+      register(email, password);
+      {
+        user
+          ? navigation.navigate('Profile')
+          : Alert.alert('please check your email or password');
+      }
+    } else {
+      Alert.alert('Please Accept Terms of condition and privacy policy');
     }
   };
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
     <>
-      
       <View style={{flex: 1}}>
         <Header Image={true} text="Create Account" onPress={back} />
         <ImageBackground
@@ -99,7 +102,11 @@ const SignUp = ({navigation}) => {
                         type="default"
                       />
                     </View>
-                    <View style={[AppStyles.toggleview,{marginTop: responsiveScreenWidth(7)}]}>
+                    <View
+                      style={[
+                        AppStyles.toggleview,
+                        {marginTop: responsiveScreenWidth(7)},
+                      ]}>
                       <TouchableOpacity onPress={toggleCheckbox}>
                         <View style={toggle}>
                           {isChecked && (
@@ -113,26 +120,32 @@ const SignUp = ({navigation}) => {
                       <Text
                         style={[
                           AppStyles.smallBold,
-                          {fontFamily: fontFamily.RobotoRegular, color: colors.text6},
+                          {
+                            fontFamily: fontFamily.RobotoRegular,
+                            color: colors.text6,
+                          },
                         ]}>
-                      
                         I accept the{' '}
                       </Text>
                       <TouchableOpacity onPress={Terms}>
-                        <Text style={[AppStyles.smallBold, {color: colors.text7}]}>
-                        
+                        <Text
+                          style={[AppStyles.smallBold, {color: colors.text7}]}>
                           Terms of Service{' '}
                         </Text>
                       </TouchableOpacity>
                       <Text
                         style={[
                           AppStyles.smallBold,
-                          {fontFamily: fontFamily.RobotoRegular, color: colors.text6},
+                          {
+                            fontFamily: fontFamily.RobotoRegular,
+                            color: colors.text6,
+                          },
                         ]}>
                         and{' '}
                       </Text>
                       <TouchableOpacity onPress={Privacy}>
-                        <Text style={[AppStyles.smallBold, {color: colors.text7}]}>
+                        <Text
+                          style={[AppStyles.smallBold, {color: colors.text7}]}>
                           Privacy Policy
                         </Text>
                       </TouchableOpacity>
@@ -179,7 +192,6 @@ const styles = StyleSheet.create({
     marginTop: responsiveScreenHeight(2),
     paddingHorizontal: responsiveScreenWidth(3),
     flexDirection: 'row',
-    
   },
   toggleimg: {
     height: scale(13),

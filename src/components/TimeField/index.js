@@ -30,13 +30,14 @@ const TimeField = props => {
           newValue < 10 ? `0${newValue}` : newValue.toString();
         props.onChangeText(formattedValue);
       } else {
-        props.onChangeText('00');
+        props.onChangeText('59');
       }
     }
   };
 
   const handleBlur = () => {
-    setInputFocused(false); 
+    setInputFocused(false);
+    handleTextChange(props.value);
   };
 
   return (
@@ -45,11 +46,11 @@ const TimeField = props => {
         style={[styles.input, ]}
         placeholder={props.placeholder}
         placeholderTextColor={colors.placeholdar4}
-        onChangeText={handleTextChange}
+        onChangeText={props.onChangeText}
         value={props.value}
         keyboardType={props.type}
         onFocus={() => setInputFocused(true)}
-        onBlur={() => handleBlur}
+        onBlur={handleBlur}
         maxLength={2}
       />
     </View>

@@ -19,9 +19,7 @@ import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const OilType = props => {
   const select = (value) => {
-    // Call the callback function with the selected value
     props.onChangeText(value);
-    // Close the modal or perform any other necessary actions
     props.onPress();
   };
   return (

@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,6 @@ import {
   Modal,
   Image,
   TouchableOpacity,
-
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -15,107 +14,93 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {scale} from 'react-native-size-matters';
-import { appIcons } from '../../../services/utilities/assets';
-import { AppStyles } from '../../../services/utilities/AppStyle';
-import { colors } from '../../../services/utilities/colors';
-import { fontFamily } from '../../../services/utilities/fonts';
-import { AuthContext } from '../../../navigation/AuthProvider';
+import {appIcons} from '../../../services/utilities/assets';
+import {AppStyles} from '../../../services/utilities/AppStyle';
+import {colors} from '../../../services/utilities/colors';
+import {fontFamily} from '../../../services/utilities/fonts';
+import {AuthContext} from '../../../navigation/AuthProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Options = (props) => {
+const Options = props => {
+  const {logout, user} = useContext(AuthContext);
 
-  const {logout} = useContext(AuthContext)
-
-  const navigation =useNavigation();
+  const navigation = useNavigation();
   const EditProfile = () => {
-    navigation.navigate('EditProfile')
-  }
+    navigation.navigate('EditProfile');
+  };
   const privacy = () => {
-    navigation.navigate('PrivacyPolicy')
-  }
+    navigation.navigate('PrivacyPolicy');
+  };
   const Terms = () => {
-    navigation.navigate('TermsOfService')
-  }
+    navigation.navigate('TermsOfService');
+  };
   const ShareFeedback = () => {
-    navigation.navigate('ThankYou')
-  }
+    navigation.navigate('ThankYou');
+  };
   const AboutUs = () => {
-    navigation.navigate('ThankYou')
-  }
-  const Logout = () => {
-    {logout() ? navigation.navigate('AuthStack') : null}
-  }
+    navigation.navigate('ThankYou');
+  };
+  const Logout = async () => {
+    try {
+      const a = "A"
+      await AsyncStorage.removeItem('Token');
+    navigation.navigate("AuthStack") 
+      } catch (error) {
+      console.error('Error getting Token from AsyncStorage:', error);
+    }
+  };
   return (
-
-      
-      <Modal
-        transparent={true}
-        visible={props.isVisible}
-        onRequestClose={props.onBackdropPress}>
-        <TouchableOpacity
-          style={styles.modalContainer}
-          activeOpacity={1}
-          onPress={props.onBackdropPress}>
-          <View style={styles.modalContent}>
-            <View style={styles.innerContainer}>
-              <TouchableOpacity style={styles.touchable} onPress={EditProfile}>
-                <Text style={AppStyles.OptionModalText}>Edit Profile</Text>
-                <Image
-                  style={styles.image}
-                  source={appIcons.arrowRight}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.touchable} onPress={ShareFeedback}>
-                <Text style={AppStyles.OptionModalText}>Share Your Feedback</Text>
-                <Image
-                  style={styles.image}
-                  source={appIcons.arrowRight}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.touchable} onPress={Terms}>
-                <Text style={AppStyles.OptionModalText}>Terms of Service</Text>
-                <Image
-                  style={styles.image}
-                  source={appIcons.arrowRight}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.touchable} onPress={privacy}>
-                <Text style={AppStyles.OptionModalText}>Privacy Policy</Text>
-                <Image
-                  style={styles.image}
-                  source={appIcons.arrowRight}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.touchable} onPress={AboutUs}>
-                <Text style={AppStyles.OptionModalText}>About Us</Text>
-                <Image
-                  style={styles.image}
-                  source={appIcons.arrowRight}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
+    <Modal
+      transparent={true}
+      visible={props.isVisible}
+      onRequestClose={props.onBackdropPress}>
+      <TouchableOpacity
+        style={styles.modalContainer}
+        activeOpacity={1}
+        onPress={props.onBackdropPress}>
+        <View style={styles.modalContent}>
+          <View style={styles.innerContainer}>
+            <TouchableOpacity style={styles.touchable} onPress={EditProfile}>
+              <Text style={AppStyles.OptionModalText}>Edit Profile</Text>
+              <Image style={styles.image} source={appIcons.arrowRight} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.touchable} onPress={ShareFeedback}>
+              <Text style={AppStyles.OptionModalText}>Share Your Feedback</Text>
+              <Image style={styles.image} source={appIcons.arrowRight} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.touchable} onPress={Terms}>
+              <Text style={AppStyles.OptionModalText}>Terms of Service</Text>
+              <Image style={styles.image} source={appIcons.arrowRight} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.touchable} onPress={privacy}>
+              <Text style={AppStyles.OptionModalText}>Privacy Policy</Text>
+              <Image style={styles.image} source={appIcons.arrowRight} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.touchable} onPress={AboutUs}>
+              <Text style={AppStyles.OptionModalText}>About Us</Text>
+              <Image style={styles.image} source={appIcons.arrowRight} />
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={Logout}
+              style={[
+                styles.touchable,
+                {
+                  borderBottomWidth: null,
+                },
+              ]}>
+              <Text
                 style={[
-                  styles.touchable,
-                  {
-                    borderBottomWidth: null,
-                  },
+                  AppStyles.OptionModalText,
+                  {fontFamily: fontFamily.RobotoBold, color: colors.text4},
                 ]}>
-                <Text
-                  style={[
-                    AppStyles.OptionModalText,
-                    {fontFamily: fontFamily.RobotoBold, color: colors.text4},
-                  ]}>
-                  Logout
-                </Text>
-                <Image
-                  style={styles.image}
-                  source={appIcons.arrowRight}
-                />
-              </TouchableOpacity>
-            </View>
+                Logout
+              </Text>
+              <Image style={styles.image} source={appIcons.arrowRight} />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </Modal>
+        </View>
+      </TouchableOpacity>
+    </Modal>
   );
 };
 
