@@ -18,6 +18,7 @@ import {AppStyles} from '../../../services/utilities/AppStyle';
 import { appImages } from '../../../services/utilities/assets';
 import { colors } from '../../../services/utilities/colors';
 import { AuthContext } from '../../../navigation/AuthProvider';
+import Toast from 'react-native-simple-toast';
 
 const Profile = ({navigation}) => {
   const {user} = useContext(AuthContext)
@@ -52,6 +53,7 @@ const Profile = ({navigation}) => {
         })
         .then(async() => {
           console.log('User Registered');
+          Toast.show('User Registered', Toast.LONG);
           await AsyncStorage.setItem('Token', user.uid)
           navigation.navigate('AppStack');
         })

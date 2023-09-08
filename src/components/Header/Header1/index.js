@@ -39,17 +39,7 @@ const Header = (props) => {
           />
         </TouchableOpacity>
       )}
-       {props.options && (
-        <TouchableOpacity  style={{ marginLeft: 20 }} onPress={props.onPress}>
-          <Image
-            style={[
-              styles.headerback,{height:scale(30),width:scale(30)} ,
-               props.textColor ? { tintColor: 'transparent' } : null,
-            ]}
-            source={appIcons.options}
-          />
-        </TouchableOpacity>
-      )}
+       
       
       {props.Image || props.options ? (
         <View style={styles.headerWithImage}>
@@ -59,6 +49,18 @@ const Header = (props) => {
         <View style={styles.headerWithoutImage}>
           <Text style={headerTextStyles}>{props.text}</Text>
         </View>
+      )}
+
+{props.options && (
+        <TouchableOpacity  style={{ marginLeft: 20 }} onPress={props.onPress}>
+          <Image
+            style={[
+              styles.headerback,{height:scale(30),width:scale(30),marginRight: responsiveScreenWidth(5),} ,
+               props.textColor ? { tintColor: 'transparent' } : null,
+            ]}
+            source={appIcons.options}
+          />
+        </TouchableOpacity>
       )}
     </View>
   );

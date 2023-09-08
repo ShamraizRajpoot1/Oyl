@@ -13,9 +13,9 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  BackHandler,
 } from 'react-native';
 import {
-  responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
@@ -26,8 +26,15 @@ import {appImages, appIcons} from '../../../services/utilities/assets';
 import {colors} from '../../../services/utilities/colors';
 import {AuthContext} from '../../../navigation/AuthProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
 const SignIn = ({navigation}) => {
+
+  const handleBackPress = () => {
+    BackHandler.exitApp();
+    return true;
+  };
+
   const {login, user} = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -43,11 +50,14 @@ const SignIn = ({navigation}) => {
       {
         user
           ? (await AsyncStorage.setItem('Token', user.uid),
-            navigation.navigate('AppStack'))
+            navigation.navigate('AppStack'),
+            Toast.show('Login Successful', Toast.LONG)
+            )
           : null;
       }
     } catch (error) {
       console.error(error);
+      Toast.show('Please Check your email and Password', Toast.LONG)
     } finally {
       setLoading(false);
     }
@@ -61,6 +71,13 @@ const SignIn = ({navigation}) => {
   const id = AsyncStorage.getItem('Token')
   console.log("id" ,id)
     
+  }, []);
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+    return () => backHandler.remove();
   }, []);
   return (
     <ImageBackground

@@ -7,6 +7,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  ActivityIndicator
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Header from '../../../components/Header/Header1';
@@ -17,6 +18,7 @@ import InputField from '../../../components/InputField';
 import {Options} from '../../../components/Modals';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../../navigation/AuthProvider';
+import { colors } from '../../../services/utilities/colors';
 
 const UserProfile = () => {
 
@@ -31,11 +33,13 @@ const UserProfile = () => {
   const [vehicleColor, setVehicleColor] = useState('');
   const [vehicleMileage, setVehicleMileage] = useState('');
   const [optionModalVisible, setOptionModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleModal = () => {
     setOptionModalVisible(prev => !prev);
   };
   useEffect(() => {
+    setIsLoading(true);
     const fetchUserProfileData = async () => {
       try {
         const userDoc = await firestore()
@@ -59,6 +63,9 @@ const UserProfile = () => {
       } catch (error) {
         console.error('Error fetching user data from Firestore', error);
       }
+      finally {
+        setIsLoading(false); 
+      }
     };
 
     fetchUserProfileData();
@@ -71,6 +78,7 @@ const UserProfile = () => {
         style={AppStyles.backgroundImage}>
         <View style={{flex: 1}}>
           <Header 
+            Image = {true}
             text="User Profile"
             options={true}
             onPress={toggleModal}
@@ -80,7 +88,12 @@ const UserProfile = () => {
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={AppStyles.contentContainer}>
+              {isLoading ? (
+          <View style={AppStyles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.buttonGradiant1} />
+          </View>
+        ) :
+            (<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={AppStyles.contentContainer}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{flex: 1}}>
                   <View style={styles.field}>
@@ -164,7 +177,7 @@ const UserProfile = () => {
                   )}
                 </View>
               </TouchableWithoutFeedback>
-            </ScrollView>
+            </ScrollView> ) }
           </KeyboardAvoidingView>
         </View>
       </ImageBackground>

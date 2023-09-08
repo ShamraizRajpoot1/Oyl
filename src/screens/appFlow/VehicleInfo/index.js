@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  Alert
+  Alert,
+  BackHandler,
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Button from '../../../components/Button';
@@ -25,6 +26,7 @@ import {colors} from '../../../services/utilities/colors';
 import {fontFamily} from '../../../services/utilities/fonts';
 import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../../navigation/AuthProvider';
+import Toast from 'react-native-simple-toast';
 
 const VehicleInfo = ({navigation}) => {
   const {user} = useContext(AuthContext);
@@ -43,10 +45,21 @@ const VehicleInfo = ({navigation}) => {
   const [continueModalVisible, setContinueModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleBackPress = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   const add = () => {
     if (!vehicleMake || !vehicleModel || !vehicleYear || !vehicleColor|| !vehicleMileage) {
-      Alert.alert('Please fill in all fields before submitting.');
+      Toast.show('Please fill in all fields before submitting', Toast.LONG);
       return; 
     }
     const docRef = firestore().collection('Users').doc(user.uid);
@@ -59,14 +72,14 @@ const VehicleInfo = ({navigation}) => {
         vehicleColor: vehicleColor,
         vehicleMileage: vehicleMileage
         }
-
     })
         .then(() => {
           console.log('Profile Updated successful');
-         
+          Toast.show('Profile Updated successful', Toast.LONG);
           setContinueModalVisible(true);
         })
         .catch(error => {
+          Toast.show('Something went wrong', Toast.LONG);
           console.log('Something went wrong', error);
           Alert.alert("Something went wrong");
         });
