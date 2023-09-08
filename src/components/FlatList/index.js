@@ -2,7 +2,7 @@ import { StyleSheet, Text, View,FlatList } from 'react-native'
 import React, {useState} from 'react'
 import DateView from '../DateView';
 
-const DateFlatList = () => {
+const DateFlatList = ({ onSelect }) => {
     
   const currentDate = new Date();
   const dayNames = [
@@ -56,7 +56,11 @@ const DateFlatList = () => {
         day={day}
         month={month}
         isSelected={item.id === selectedId}
-        onPress={() => setSelectedId(item.id)}
+        onPress={() => {
+          setSelectedId(item.id);
+          const selectedDate = new Date(date);
+          onSelect(selectedDate); 
+        }}
       />
     );
   };

@@ -6,7 +6,6 @@ import {
   Modal,
   Image,
   TextInput,
-  StatusBar,
   TouchableOpacity, // Import TouchableOpacity
 } from 'react-native';
 import {
@@ -18,59 +17,67 @@ import {scale} from 'react-native-size-matters';
 import ModalButton from '../../Button/ModalButton';
 import {AppStyles} from '../../../services/utilities/AppStyle';
 import { appIcons } from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import LinearGradient from 'react-native-linear-gradient';
+import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const CardDetail = props => {
   const inputstyle = {
     ...AppStyles.input,
     width: '95%',
     marginHorizontal: responsiveScreenWidth(2),
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: fontFamily.MontserratRegular,
   };
   return (
     <>
-      <StatusBar hidden={true} />
+      
       <Modal
         transparent={true}
         visible={props.isVisible}
         onRequestClose={props.onBackdropPress} 
       >
-        <TouchableOpacity // Use TouchableOpacity to handle backdrop press
+        <TouchableOpacity 
           style={AppStyles.modalContainer}
-          activeOpacity={1} // Prevents the parent TouchableOpacity from registering the tap
-          onPress={props.onBackdropPress} // Call the onBackdropPress function when the backdrop is pressed
+          activeOpacity={1} 
+          onPress={props.onBackdropPress} 
         >
           <View style={AppStyles.modalContent}>
-            <View style={AppStyles.circle}>
+            <View style={[AppStyles.circle,{elevation:8, shadowColor:colors.shadow8}]}>
+            <LinearGradient 
+              colors={colors.circlegradiant}
+              style={AppStyles.circleGradient}
+              >
               <Image
                 source={appIcons.payment}
                 style={AppStyles.image}
               />
+              </LinearGradient>
             </View>
             <Text
               style={[
                 AppStyles.modaltxt,
                 {
-                  fontFamily: 'Poppins-Regular',
+                  fontFamily: fontFamily.PoppinsRegular,
                   marginTop: responsiveScreenWidth(10),
                 },
               ]}>
               Add New Details
             </Text>
             <Text
-              style={[AppStyles.modaltxt, {fontSize: responsiveFontSize(1.8)}]}>
+              style={[AppStyles.modaltxt, {fontSize: fontSize.h3}]}>
               Please enter your Payment Details
             </Text>
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Card holder name"
-                placeholderTextColor="#3A3A3A"
+                placeholderTextColor={colors.placeholdar2}
                 onChangeText={props.onChangeText}
                 value={props.value}
                 style={inputstyle}
               />
               <TextInput
                 placeholder="Number of card"
-                placeholderTextColor="#3A3A3A"
+                placeholderTextColor={colors.placeholdar2}
                 onChangeText={props.onChangeText}
                 value={props.value}
                 style={inputstyle}
@@ -80,7 +87,7 @@ const CardDetail = props => {
               <View style={styles.bottmContainer}>
                 <TextInput
                   placeholder="MM"
-                  placeholderTextColor="#3A3A3A"
+                  placeholderTextColor={colors.placeholdar2}
                   onChangeText={props.onChangeText}
                   value={props.value}
                   style={styles.input}
@@ -90,7 +97,7 @@ const CardDetail = props => {
                 <Text style={styles.text}>/</Text>
                 <TextInput
                   placeholder="YY"
-                  placeholderTextColor="#3A3A3A"
+                  placeholderTextColor={colors.placeholdar2}
                   onChangeText={props.onChangeText}
                   value={props.value}
                   style={styles.input}
@@ -99,7 +106,7 @@ const CardDetail = props => {
                 />
                 <TextInput
                   placeholder="CVV"
-                  placeholderTextColor="#3A3A3A"
+                  placeholderTextColor={colors.placeholdar2}
                   onChangeText={props.onChangeText}
                   value={props.value}
                   style={styles.input}
@@ -109,9 +116,9 @@ const CardDetail = props => {
               </View>
             </View>
             <ModalButton
-              
+              color={colors.buttonGradiant6}
               text="Save"
-              textColor="black"
+              textColor={colors.text4}
               onPress={props.onPress}
             />
           </View>
@@ -126,35 +133,35 @@ export default CardDetail;
 const styles = StyleSheet.create({
   input: {
     marginTop: responsiveScreenWidth(2),
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.field3,
     width: responsiveScreenWidth(20),
     height: responsiveScreenWidth(10),
-    borderRadius: 3,
-    fontSize: responsiveFontSize(1.5),
+    borderRadius: scale(3),
+    fontSize: fontSize.inputText,
     paddingLeft: responsiveScreenWidth(1),
     marginHorizontal: responsiveScreenWidth(2),
   },
   text: {
-    color: '#222222',
-    fontSize: responsiveFontSize(1.2),
-    fontFamily: 'Montserrat-Medium',
-    marginLeft:10,
-    marginVertical:5
+    color: colors.text1,
+    fontSize: fontSize.lebal,
+    fontFamily: fontFamily.MontserratMedium,
+    marginVertical:5,
+    marginHorizontal: responsiveScreenWidth(2)
   },
   inputContainer: {
-    borderRadius: 12,
-    backgroundColor: '#FFFFFF',
+    borderRadius: scale(6),
+    backgroundColor: colors.background2,
     width: '100%',
     marginTop: 5,
     elevation: 5,
-    shadowColor: '#E3185A',
+    shadowColor: colors.shadow6,
     padding: responsiveScreenWidth(2),
   },
   bottmContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: responsiveScreenWidth(3),
+    paddingLeft: responsiveScreenWidth(1),
     paddingRight: responsiveScreenWidth(3),
     marginBottom:20
   },

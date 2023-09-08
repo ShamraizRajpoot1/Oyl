@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { responsiveFontSize, responsiveScreenWidth } from 'react-native-responsive-dimensions'
+import { colors } from '../../services/utilities/colors'
+import { fontFamily, fontSize } from '../../services/utilities/fonts'
 
 const PrivacyText = () => {
   return (
@@ -35,8 +37,9 @@ export default PrivacyText
 
 const styles = StyleSheet.create({
     text:{
-        color:"#FFFFCC",
-        fontSize: responsiveFontSize(2),
-        padding: responsiveScreenWidth(4)
+        color:colors.text7,
+        fontSize: fontSize.medium,
+        padding: responsiveScreenWidth(4),
+        fontFamily: fontFamily.medium,
       }
 })

@@ -17,9 +17,10 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import {appIcons} from '../../services/utilities/assets';
 import {AppStyles} from '../../services/utilities/AppStyle';
 import { Location, OilType } from '../Modals';
+import { colors } from '../../services/utilities/colors';
 
 const InputField = props => {
-  const [secureTextEntry, setSecureTextEntry] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [calendar, setCalendar] = useState(false);
   const [datePicker, setDatePicker] = useState(false);
   const [location, setLocation] = useState(false);
@@ -53,7 +54,7 @@ const InputField = props => {
   };
   const containerStyle = {
     ...styles.container,
-    backgroundColor: props.backgroundColor || '#FFFFC8',
+    backgroundColor: props.backgroundColor || colors.field1,
   };
 
   return (
@@ -69,7 +70,7 @@ const InputField = props => {
           ]}
           placeholder={props.placeholder}
          
-          placeholderTextColor={props.color? props.color :"rgba(34, 34, 34, 0.5)"}
+          placeholderTextColor={props.color? props.color :colors.placeholdar3}
           onChangeText={props.onChangeText}
           onFocus={() => {if (props.calendar) { setDatePicker(true)}
           else if(props.location) {setLocation(true)}
@@ -80,6 +81,7 @@ const InputField = props => {
           secureTextEntry={secureTextEntry && props.secureTextEntry}
           calendar={calendar}
           maxLength={props.maxLength}
+          editable={props.editable}
         />
         {props.secureTextEntry && (
           <TouchableOpacity onPress={toggleSecureTextEntry}>
@@ -142,7 +144,7 @@ const InputField = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFC8',
+    backgroundColor: colors.field1,
     marginHorizontal: responsiveScreenWidth(7),
     marginVertical: responsiveScreenWidth(2),
     borderRadius: scale(10),

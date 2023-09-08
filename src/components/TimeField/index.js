@@ -5,6 +5,8 @@ import {
   responsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
 import { scale } from 'react-native-size-matters';
+import { colors } from '../../services/utilities/colors';
+import { fontSize } from '../../services/utilities/fonts';
 
 const TimeField = props => {
   const [isInputFocused, setInputFocused] = useState(false);
@@ -33,17 +35,21 @@ const TimeField = props => {
     }
   };
 
+  const handleBlur = () => {
+    setInputFocused(false); 
+  };
+
   return (
     <View style={[styles.container,isInputFocused && styles.focusedInput  ]}>
       <TextInput
         style={[styles.input, ]}
         placeholder={props.placeholder}
-        placeholderTextColor="#444444"
+        placeholderTextColor={colors.placeholdar4}
         onChangeText={handleTextChange}
         value={props.value}
         keyboardType={props.type}
         onFocus={() => setInputFocused(true)}
-        onBlur={() => setInputFocused(false)}
+        onBlur={() => handleBlur}
         maxLength={2}
       />
     </View>
@@ -56,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     width: scale(80),
     height: scale(80),
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background2,
     elevation: 7,
     borderRadius: scale(10),
     justifyContent: 'center',
@@ -65,13 +71,13 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    color: '#444444',
+    color: colors.text8,
     padding: responsiveScreenHeight(1),
     borderRadius: responsiveScreenHeight(5),
-    fontSize: responsiveFontSize(4),
+    fontSize: fontSize.time,
     
   },
   focusedInput: {
-    backgroundColor: '#FFFFC8',
+    backgroundColor: colors.field1,
   },
 });

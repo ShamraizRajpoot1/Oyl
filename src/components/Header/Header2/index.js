@@ -4,6 +4,8 @@ import { responsiveFontSize } from 'react-native-responsive-dimensions'
 import { ImageBackground } from 'react-native'
 import { appImages } from '../../../services/utilities/assets'
 import { scale } from 'react-native-size-matters'
+import { fontFamily, fontSize } from '../../../services/utilities/fonts'
+import { colors } from '../../../services/utilities/colors'
 
 const Header2 = (props) => {
   return (
@@ -31,12 +33,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       headertext: {
-        color: '#FFFFFF',
-        fontWeight: 'bold',
-        fontSize: responsiveFontSize(3),
+        color: 'white',
+        fontFamily:fontFamily.RobotoMedium,
+        fontSize: fontSize.h1,
       },
       backgroundImage: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.background2,
         flex: 1,
         resizeMode: 'cover',
         borderBottomLeftRadius: scale(50),

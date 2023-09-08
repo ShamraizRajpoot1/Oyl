@@ -8,19 +8,21 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import { scale } from 'react-native-size-matters';
+import { colors } from '../../services/utilities/colors';
+import { fontSize } from '../../services/utilities/fonts';
 
 const Button = (props) => {
   const buttonWidth = props.width ? { width: props.width } : null;
 
   return (
     <LinearGradient
-      colors={[props.startColor, props.endColor]}
+    colors={props.color}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={[
         styles.container,
         { borderColor: props.endColor },
-        buttonWidth, // Apply the width style conditionally
+        buttonWidth,
       ]}
     >
       <TouchableOpacity
@@ -37,12 +39,12 @@ const Button = (props) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    width: responsiveScreenWidth(66), // Default width if no width prop is provided
+    width: responsiveScreenWidth(66), 
     height: responsiveScreenHeight(6),
     borderRadius: scale(25),
     justifyContent: 'center',
     elevation: 5,
-    shadowColor: '#FFFFC829',
+    shadowColor: colors.shadow2,
   },
   buttonContent: {
     flex: 1,
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: 'bold',
-    fontSize: responsiveFontSize(2.2),
+    fontSize: fontSize.buttonText,
   },
 });
 

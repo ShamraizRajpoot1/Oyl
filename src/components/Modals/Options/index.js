@@ -1,13 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Modal,
   Image,
-  TextInput,
-  StatusBar,
   TouchableOpacity,
 
 } from 'react-native';
@@ -19,8 +17,14 @@ import {
 import {scale} from 'react-native-size-matters';
 import { appIcons } from '../../../services/utilities/assets';
 import { AppStyles } from '../../../services/utilities/AppStyle';
+import { colors } from '../../../services/utilities/colors';
+import { fontFamily } from '../../../services/utilities/fonts';
+import { AuthContext } from '../../../navigation/AuthProvider';
 
 const Options = (props) => {
+
+  const {logout} = useContext(AuthContext)
+
   const navigation =useNavigation();
   const EditProfile = () => {
     navigation.navigate('EditProfile')
@@ -38,11 +42,10 @@ const Options = (props) => {
     navigation.navigate('ThankYou')
   }
   const Logout = () => {
-    navigation.goBack();
+    {logout() ? navigation.navigate('AuthStack') : null}
   }
   return (
-    <>
-      <StatusBar hidden={true} />
+
       
       <Modal
         transparent={true}
@@ -90,6 +93,7 @@ const Options = (props) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+              onPress={Logout}
                 style={[
                   styles.touchable,
                   {
@@ -99,7 +103,7 @@ const Options = (props) => {
                 <Text
                   style={[
                     AppStyles.OptionModalText,
-                    {fontFamily: 'Roboto-Bold', color: '#000000'},
+                    {fontFamily: fontFamily.RobotoBold, color: colors.text4},
                   ]}>
                   Logout
                 </Text>
@@ -112,7 +116,6 @@ const Options = (props) => {
           </View>
         </TouchableOpacity>
       </Modal>
-    </>
   );
 };
 
@@ -123,10 +126,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: colors.background1,
   },
   modalContent: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background2,
     width: responsiveScreenWidth(100),
     padding: 20,
     alignItems: 'center',
@@ -138,9 +141,9 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     borderWidth: scale(1),
-    borderColor: '#E9E9E9',
+    borderColor: colors.border1,
     borderRadius: scale(10),
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background2,
     width: '90%',
     marginVertical: responsiveScreenHeight(6),
     marginHorizontal: responsiveScreenWidth(15),
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
   touchable: {
     flex: 1,
     borderBottomWidth: scale(1),
-    borderColor: '#00000029',
+    borderColor: colors.border3,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',

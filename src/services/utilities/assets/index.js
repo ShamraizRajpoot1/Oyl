@@ -26,7 +26,7 @@ const appIcons = {
     payment: require('../../../assets/icons/payment.png'),
     profile: require('../../../assets/icons/profile.png'),
     thumb: require('../../../assets/icons/thumb.png'),
-    thumb: require('../../../assets/icons/thumb.png'),
+    tick: require('../../../assets/icons/tick.png'),
     options: require('../../../assets/icons/options.png'),
     
 }

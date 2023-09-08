@@ -8,15 +8,20 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Header from '../../../components/Header/Header1';
 import {ImageBackground} from 'react-native';
 import {AppStyles} from '../../../services/utilities/AppStyle';
 import {appImages} from '../../../services/utilities/assets';
 import InputField from '../../../components/InputField';
 import {Options} from '../../../components/Modals';
+import firestore from '@react-native-firebase/firestore';
+import { AuthContext } from '../../../navigation/AuthProvider';
 
 const UserProfile = () => {
+
+  const {user} = useContext(AuthContext)
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -30,9 +35,37 @@ const UserProfile = () => {
   const toggleModal = () => {
     setOptionModalVisible(prev => !prev);
   };
+  useEffect(() => {
+    const fetchUserProfileData = async () => {
+      try {
+        const userDoc = await firestore()
+          .collection('Users')
+          .doc(user.uid)
+          .get();
+
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          setFirstName(userData.firstName);
+          setLastName(userData.lastName);
+          setBirthday(userData.birthday);
+          setVehicleMake(userData.vehicleInfo.vehicleMake);
+          setVehicleModel(userData.vehicleInfo.vehicleModel);
+          setVehicleYear(userData.vehicleInfo.vehicleYear);
+          setVehicleColor(userData.vehicleInfo.vehicleColor);
+          setVehicleMileage(userData.vehicleInfo.vehicleMileage);
+        } else {
+          console.log('User data not found in Firestore');
+        }
+      } catch (error) {
+        console.error('Error fetching user data from Firestore', error);
+      }
+    };
+
+    fetchUserProfileData();
+  }, []); 
+
   return (
     <>
-      {/* <StatusBar backgroundColor="white" barStyle="dark-content" /> */}
       <ImageBackground
         source={appImages.background}
         style={AppStyles.backgroundImage}>
@@ -57,6 +90,7 @@ const UserProfile = () => {
                       onChangeText={setFirstName}
                       value={firstName}
                       type="default"
+                      editable={false}
                     />
                     <InputField
                       label="Last Name"
@@ -64,6 +98,7 @@ const UserProfile = () => {
                       onChangeText={setLastName}
                       value={lastName}
                       type="default"
+                      editable={false}
                     />
                     <InputField
                       label="Birthday"
@@ -72,6 +107,7 @@ const UserProfile = () => {
                       value={birthday}
                       type="default"
                       calendar={true}
+                      editable={false}
                     />
                     <InputField
                       label="Vehicle Make"
@@ -79,6 +115,7 @@ const UserProfile = () => {
                       onChangeText={setVehicleMake}
                       value={vehicleMake}
                       type="default"
+                      editable={false}
                     />
                     <InputField
                       label="Vehicle Model"
@@ -86,6 +123,7 @@ const UserProfile = () => {
                       onChangeText={setVehicleModel}
                       value={vehicleModel}
                       type="default"
+                      editable={false}
                     />
                     <InputField
                       label="Vehicle Year"
@@ -93,6 +131,7 @@ const UserProfile = () => {
                       onChangeText={setVehicleYear}
                       value={vehicleYear}
                       type="default"
+                      editable={false}
                     />
                     <InputField
                       label="Vehicle Color"
@@ -100,6 +139,7 @@ const UserProfile = () => {
                       onChangeText={setVehicleColor}
                       value={vehicleColor}
                       type="email-address"
+                      editable={false}
                     />
                     <InputField
                       label="Vehicle Mileage"
@@ -107,6 +147,7 @@ const UserProfile = () => {
                       onChangeText={setVehicleMileage}
                       value={vehicleMileage}
                       type="default"
+                      editable={false}
                     />
                     {optionModalVisible && (
                       <Options

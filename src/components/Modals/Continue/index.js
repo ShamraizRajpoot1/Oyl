@@ -5,8 +5,6 @@ import {
   View,
   Modal,
   Image,
-  TextInput,
-  StatusBar,
   TouchableOpacity,
   ImageBackground, // Import TouchableOpacity
 } from 'react-native';
@@ -19,11 +17,13 @@ import {scale} from 'react-native-size-matters';
 import ModalButton from '../../Button/ModalButton';
 import Button from '../../Button';
 import { appImages,appIcons } from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const ContinueModal = props => {
   return (
-    <>
-      <StatusBar hidden={true} />
+   
+     
       
       <Modal
         transparent={true}
@@ -39,16 +39,17 @@ const ContinueModal = props => {
           <View style={styles.modalContent}>
             <Image style={styles.image} source={appIcons.check} />
             
-            <Text style={[styles.text,{marginTop: scale(15),fontFamily: 'Roboto-Bold',}]}>{props.Text}</Text>
-            <Text style={[styles.text,{fontSize: responsiveFontSize(2.4),marginTop:scale(10)}]}>{props.Text2}</Text>
-            <Text  style={[styles.text,{fontSize: responsiveFontSize(2),}]}>{props.Text3}</Text>
+            <Text style={[styles.text,{marginTop: scale(15),fontFamily: fontFamily.RobotoBold,}]}>{props.Text}</Text>
+            <View>
+            <Text style={[styles.text,{fontSize: fontSize.large,marginTop:scale(10)}]}>{props.Text2}</Text>
+            <Text  style={[styles.text,{fontSize: fontSize.medium,}]}>{props.Text3}</Text>
+            
+            </View>
             <View style={styles.button}>
             <Button 
-
             text="CONTINUE"
-            startColor="#FFFFFF"
-            endColor="#FFFFC8"
-            textColor="#000000"
+            color={colors.buttonGradiant8}
+            textColor={colors.text4}
             onPress={props.onPress}
             />
             </View>
@@ -56,7 +57,7 @@ const ContinueModal = props => {
           </ImageBackground>
           </TouchableOpacity>
       </Modal>
-    </>
+    
   );
 };
 
@@ -67,8 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: colors.background1,
   },
   modalContent: {
    
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     flexGrow:0.3,
     
   },
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   
   text:{
     color:'white',
-    fontSize:responsiveFontSize(3.5),
-    fontFamily:'Roboto-Medium',
+    fontSize:fontSize.largeText,
+    fontFamily:fontFamily.RobotoMedium,
     textAlign:'center'
   },
   textContainer: {

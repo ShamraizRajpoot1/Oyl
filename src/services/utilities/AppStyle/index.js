@@ -2,40 +2,42 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
 import { scale } from 'react-native-size-matters'
+import { colors } from '../colors'
+import { fontFamily, fontSize } from '../fonts'
 export const AppStyles = StyleSheet.create({
     centerMedium:{
         alignSelf: 'center',
-        fontSize: responsiveFontSize (2),
-        color: '#FFFFC8',
-        fontFamily: 'Roboto'
+        fontSize: fontSize.medium,
+        color: colors.text3,
+        fontFamily: fontFamily.RobotoMedium
     },
     lighttext: {
-        fontSize: responsiveFontSize(1.7),
-        color: '#FFFFFF',
-        fontFamily: 'Poppins-Light'
+        fontSize: fontSize.popinsSmall,
+        color: colors.text6,
+        fontFamily: fontFamily.PoppinsLight
     },
     smallBold:{
-    color: '#444444',
-    fontSize: responsiveFontSize(1.3),
-    fontFamily:'Roboto-Bold'
+    color: colors.text8,
+    fontSize: fontSize.lebal,
+    fontFamily: fontFamily.RobotoBold
     },
     smallText: {
       flex: 1,
-      color: '#222222',
+      color: colors.text1,
       borderRadius: responsiveScreenHeight(5),
-      fontSize: responsiveFontSize(1.5),
+      fontSize: fontSize.inputText,
       
     },
     largeBoldText: {
       alignSelf:'center',
       marginVertical: scale(18),
-      color: '#222222',
+      color: colors.text1,
       fontWeight: 'bold',
-      fontSize: responsiveFontSize(2.5),
+      fontSize: fontSize.large,
     },
     semiboldtext: {
-        fontSize: responsiveFontSize(1.7),
-        color: '#FFFFC8',
+        fontSize: fontSize.popinsSmall,
+        color: colors.text3,
         fontFamily: 'Poppins-SemiBold'
     },
     contentContainer: {
@@ -55,13 +57,20 @@ export const AppStyles = StyleSheet.create({
         position: 'absolute',
         top: responsiveScreenWidth (-15),
         width: responsiveScreenWidth(26),
-        backgroundColor: 'black',
+        backgroundColor: colors.circlegradiant,
         height: responsiveScreenWidth(26),
         borderRadius: 200,
         alignItems: 'center',
         justifyContent: 'center',
         elevation:8,
-        shadowColor: '#FFFFC875',
+        shadowColor: colors.shadow8,
+      },
+      circleGradient: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
       },
       image: {
         width: scale(55),
@@ -75,45 +84,45 @@ export const AppStyles = StyleSheet.create({
         justifyContent: 'center',
       },
       headertext: {
-        color: '#FFFFFF',
+        color: colors.text6,
         fontWeight: 'bold',
-        fontSize: responsiveFontSize(3),
+        fontSize: fontSize.h1,
       },
       input: {
         marginTop: responsiveScreenWidth(2),
-        backgroundColor: '#F5F5F5',
+        backgroundColor: colors.background5,
         width: responsiveScreenWidth(80),
         height: responsiveScreenWidth(10),
         borderRadius: 3,
-        fontSize: responsiveFontSize(1.5),
+        fontSize: fontSize.inputText,
         paddingLeft: responsiveScreenWidth(2),
-        fontFamily:'Poppins-Light'
+        fontFamily:fontFamily.PoppinsLight,
       },
       modaltxt: {
-        fontSize: responsiveFontSize(2),
-        fontFamily: 'Poppins-Medium',
-        color: '#000000',
+        fontSize: fontSize.medium,
+        fontFamily: fontFamily.PoppinsMedium,
+        color: colors.text4,
       },
       modalContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: colors.background1,
       },
       modalContent: {
         backgroundColor: 'white',
         width: responsiveScreenWidth(90),
         padding: responsiveScreenWidth(2),
-        borderRadius: 10,
+        borderRadius: scale(10),
         alignItems: 'center',
         justifyContent: 'center',
         
       },
       OptionModalText:{
-          fontFamily:'Roboto',
-          color:'#444444',
+          fontFamily:fontFamily.RobotoRegular,
+          color:colors.text8,
           marginLeft: responsiveScreenWidth(5),
-          fontSize: responsiveFontSize(2.2)
+          fontSize: fontSize.modalText
       },
       toggleview: {
         

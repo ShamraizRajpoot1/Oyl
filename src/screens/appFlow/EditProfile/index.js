@@ -1,29 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   StyleSheet,
   ImageBackground,
-  Image,
+  StatusBar,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TouchableWithoutFeedback,
+  Alert
 } from 'react-native';
-import {
-  responsiveFontSize,
-  responsiveScreenWidth,
-} from 'react-native-responsive-dimensions';
 import InputField from '../../../components/InputField';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header/Header1';
 import {AppStyles} from '../../../services/utilities/AppStyle';
-import { Options } from '../../../components/Modals';
 import { appImages } from '../../../services/utilities/assets';
-
+import { colors } from '../../../services/utilities/colors';
+import firestore from '@react-native-firebase/firestore';
+import { AuthContext } from '../../../navigation/AuthProvider';
 
 const EditProfile = ({navigation}) => {
 
+  const {user} = useContext(AuthContext);
   
 
   const [firstName, setFirstName] = useState('');
@@ -37,20 +36,66 @@ const EditProfile = ({navigation}) => {
   const [optionModalVisible, setOptionModalVisible] = useState(false);
 
   const login = () => {
-    navigation.navigate('AppStack');
+    firestore ()
+        .collection('Users')
+        .doc(user.uid)
+        .set({
+          userId: user.uid,
+          email: user.email,
+          firstName: firstName,
+          lastName: lastName,
+          birthday:birthday,
+          vehicleInfo:{
+          vehicleMake: vehicleMake,
+          vehicleModel: vehicleModel,
+          vehicleYear:vehicleYear,
+          vehicleColor: vehicleColor,
+          vehicleMileage: vehicleMileage
+          }
+          
+        })
+        .then(() => {
+          console.log('Profile Updated successful');
+          Alert.alert("Profile Updated successfull");
+          navigation.goBack();
+        })
+        .catch(error => {
+          console.log('Something went wrong', error);
+        });
+    
   };
   const back = () => {
     navigation.goBack();
   };
+  useEffect(() => {
+    const fetchUserProfileData = async () => {
+      try {
+        const userDoc = await firestore()
+          .collection('Users')
+          .doc(user.uid)
+          .get();
+
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          setFirstName(userData.firstName);
+          setLastName(userData.lastName);
+          setBirthday(userData.birthday);
+          setVehicleMake(userData.vehicleInfo.vehicleMake);
+          setVehicleModel(userData.vehicleInfo.vehicleModel);
+          setVehicleYear(userData.vehicleInfo.vehicleYear);
+          setVehicleColor(userData.vehicleInfo.vehicleColor);
+          setVehicleMileage(userData.vehicleInfo.vehicleMileage);
+        } else {
+          console.log('User data not found in Firestore');
+        }
+      } catch (error) {
+        console.error('Error fetching user data from Firestore', error);
+      }
+    };
+
+    fetchUserProfileData();
+  }, []);
   
-  const toggleModal = () => {
-    setOptionModalVisible(prev => !prev);
-  };
-  // useEffect( async() => {
-  //   console.log(optionModalVisible)
-  //   await toggleModal();
-  //   console.log(optionModalVisible)
-  // }, []);
   return (
     <>
       <ImageBackground
@@ -135,9 +180,8 @@ const EditProfile = ({navigation}) => {
                   <View style={styles.button}>
                     <Button
                       text="DONE"
-                      startColor="#FFFFFF"
-                      endColor="#FFFFCC"
-                      textColor="black"
+                      color={colors.buttonGradiant2}
+                      textColor={colors.text4}
                       onPress={login}
                     />
                     

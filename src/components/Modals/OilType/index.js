@@ -5,8 +5,6 @@ import {
   View,
   Modal,
   Image,
-  TextInput,
-  StatusBar,
   TouchableOpacity, // Import TouchableOpacity
 } from 'react-native';
 import {
@@ -14,14 +12,20 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {scale} from 'react-native-size-matters';
-import ModalButton from '../../Button/ModalButton';
 import { appIcons } from '../../../services/utilities/assets';
 import { AppStyles } from '../../../services/utilities/AppStyle';
+import { colors } from '../../../services/utilities/colors';
+import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const OilType = props => {
+  const select = (value) => {
+    // Call the callback function with the selected value
+    props.onChangeText(value);
+    // Close the modal or perform any other necessary actions
+    props.onPress();
+  };
   return (
-    <>
-      <StatusBar hidden={true} />
+  
       <Modal
         transparent={true}
         visible={props.isVisible}
@@ -41,8 +45,8 @@ const OilType = props => {
                   style={[
                     AppStyles.smallText,
                     {
-                      fontFamily: 'Roboto',
-                      fontSize: responsiveFontSize(1.1),
+                      fontFamily: fontFamily.RobotoRegular,
+                      fontSize: fontSize.small,
                     },
                   ]}>
                   (All Oil High Quality Synthetic)
@@ -57,18 +61,18 @@ const OilType = props => {
               </TouchableOpacity>
             </View>
             <View style={styles.Bottom}>
-              <TouchableOpacity style={styles.touchable}><Text style={AppStyles.OptionModalText}>Manufacturers Recommendation</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.touchable} onPress={() => select('Manufacturers Recommendation')}><Text style={AppStyles.OptionModalText}>Manufacturers Recommendation</Text></TouchableOpacity>
              <View style={[styles.touchable,{alignItems: 'center'}]}><Text style={AppStyles.OptionModalText}>------- OR -------</Text></View>
-              <TouchableOpacity style={styles.touchable}><Text style={AppStyles.OptionModalText}>0W-20</Text></TouchableOpacity>
-              <TouchableOpacity style={styles.touchable}><Text style={AppStyles.OptionModalText}>5W-20</Text></TouchableOpacity>
-              <TouchableOpacity style={styles.touchable}><Text style={AppStyles.OptionModalText}>5W-30</Text></TouchableOpacity>
-              <TouchableOpacity style={styles.touchable}><Text style={AppStyles.OptionModalText}>10W-30</Text></TouchableOpacity>
-              <TouchableOpacity style={[styles.touchable,{borderBottomWidth: null,}]}><Text style={AppStyles.OptionModalText}>10W-40</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.touchable} onPress={() => select('0W-20')}><Text style={AppStyles.OptionModalText}>0W-20</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.touchable} onPress={() => select('5W-20')}><Text style={AppStyles.OptionModalText}>5W-20</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.touchable} onPress={() => select('5W-30')}><Text style={AppStyles.OptionModalText}>5W-30</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.touchable} onPress={() => select('10W-30')}><Text style={AppStyles.OptionModalText}>10W-30</Text></TouchableOpacity>
+              <TouchableOpacity style={[styles.touchable,{borderBottomWidth: null,}]} onPress={() => select('10W-40')}><Text style={AppStyles.OptionModalText}>10W-40</Text></TouchableOpacity>
             </View>
           </View>
         </TouchableOpacity>
       </Modal>
-    </>
+  
   );
 };
 
@@ -79,11 +83,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: colors.background1,
   },
   modalContent: {
     flex: 0.5,
-    backgroundColor: '#F7F7F7',
+    backgroundColor: colors.field2,
     width: responsiveScreenWidth(90),
     padding: 5,
     borderRadius: 10,
@@ -93,24 +97,12 @@ const styles = StyleSheet.create({
   Top: {
     flex: 1,
     width: '100%',
-    backgroundColor: '#F7F7F7',
+    backgroundColor: colors.field2,
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     elevation: 9,
-  },
-  locationtext: {
-    fontSize: responsiveFontSize(1.5),
-    color: '#444444CC',
-    fontFamily: 'Roboto-Bold',
-  },
-  label: {
-    fontSize: responsiveFontSize(1.5),
-    color: '#444444',
-    fontFamily: 'Roboto-Bold',
-    marginBottom: 4,
-    marginTop: -4,
   },
   locationimg: {
     marginRight: 20,
@@ -124,8 +116,8 @@ const styles = StyleSheet.create({
   },
   Bottom: {
     flex: 5,
-    borderRadius: 12,
-    backgroundColor: '#F7F7F7',
+    borderRadius: scale(12),
+    backgroundColor: colors.field2,
     width: '100%',
     marginTop: 5,
     elevation:5,
@@ -133,14 +125,14 @@ const styles = StyleSheet.create({
   },
   text:{
     fontFamily:'Roboto',
-    color:'#444444',
+    color:colors.field2,
     marginLeft: responsiveScreenWidth(5),
-    fontSize: responsiveFontSize(2.2)
+    fontSize: fontSize.modalText
   },
   touchable:{
     flex:1,
-     borderBottomWidth: 1,
-    borderColor:'#00000029',
+    borderBottomWidth: 1,
+    borderColor:colors.border3,
     justifyContent:'center'
   }
 });

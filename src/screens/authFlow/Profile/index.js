@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 import {
   View,
   Text,
@@ -17,8 +18,12 @@ import InputField from '../../../components/InputField';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header/Header1';
 import {AppStyles} from '../../../services/utilities/AppStyle';
+import { appImages } from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import { AuthContext } from '../../../navigation/AuthProvider';
 
 const Profile = ({navigation}) => {
+  const {user} = useContext(AuthContext)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthday, setBirthday] = useState('');
@@ -28,17 +33,40 @@ const Profile = ({navigation}) => {
   const [vehicleColor, setVehicleColor] = useState('');
   const [vehicleMileage, setVehicleMileage] = useState('');
   const Home = () => {
+    firestore ()
+        .collection('Users')
+        .doc(user.uid)
+        .set({
+          userId: user.uid,
+          email: user.email,
+          firstName: firstName,
+          lastName: lastName,
+          birthday:birthday,
+          vehicleInfo:{
+          vehicleMake: vehicleMake,
+          vehicleModel: vehicleModel,
+          vehicleYear:vehicleYear,
+          vehicleColor: vehicleColor,
+          vehicleMileage: vehicleMileage
+          }
+          
+        })
+        .then(() => {
+          console.log('User Registered');
+        })
+        .catch(error => {
+          console.log('Something went wrong', error);
+        });
     navigation.navigate('AppStack');
   };
 
   return (
     <>
-<StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
     <Header text="Set Up Your Profile" />
     <View style={{flex: 1}}>
       
       <ImageBackground
-        source={require('../../../assets/images/background.png')}
+        source={appImages.background}
         style={AppStyles.backgroundImage}>
         <KeyboardAvoidingView
           style={{flex: 1}}
@@ -111,9 +139,8 @@ const Profile = ({navigation}) => {
                 <View style={styles.button}>
                   <Button
                     text="DONE"
-                    startColor="#FFFFFF"
-                    endColor="#FFFFCC"
-                    textColor="black"
+                    color={colors.buttonGradiant1}
+                    textColor={colors.text4}
                     onPress={Home}
                   />
                 </View>

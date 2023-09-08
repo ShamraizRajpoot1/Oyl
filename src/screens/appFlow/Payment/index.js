@@ -9,6 +9,9 @@ import {
 } from 'react-native-responsive-dimensions';
 import CardView from '../../../components/Card';
 import { CardDetail,ContinueModal } from '../../../components/Modals';
+import { appImages } from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const Payment = ({navigation}) => {
     
@@ -38,7 +41,6 @@ const Payment = ({navigation}) => {
   
   return (
     <>
-      {/* <StatusBar backgroundColor="#FFFFFF" barStyle= 'dark-content' /> */}
       <View style={{flex: 1}}>
      
         <Header1
@@ -47,7 +49,7 @@ const Payment = ({navigation}) => {
           onPress={back}
         />
         <ImageBackground
-          source={require('../../../assets/images/background.png')}
+          source={appImages.background}
           style={AppStyles.backgroundImage}>
           <ScrollView style={{flex: 0.9}} showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
@@ -66,7 +68,7 @@ const Payment = ({navigation}) => {
                     <Text style={styles.count}>87</Text>
                   </View>
                   <Text style={styles.Text}>
-                    THIS WILL HAVE YOU ROLLIN FOR 10,000 MILES - SHOOT WE'LL
+                    THIS WILL HAVE YOU ROLLIN FOR 10,000 MILES -{"\n"} SHOOT WE'LL
                     EVEN TOP OFF YOUR WASHER FLUID
                   </Text>
                   <Text style={styles.Text}>AND AIR UP YOUR TIRES</Text>
@@ -81,26 +83,26 @@ const Payment = ({navigation}) => {
               <View style={styles.bottomContainer}>
                 <View style={styles.imageContainer}>
                   <CardView
-                    source={require('../../../assets/images/stripe.png')}
+                    source={appImages.stripe}
                     onPress={Card}
                   />
                   <CardView
-                    source={require('../../../assets/images/androidPay.png')}
+                    source={appImages.androidPay}
                     onPress={Card}
                   />
                   <CardView onPress={Card}
-                    source={require('../../../assets/images/applePay.png')}
+                    source={appImages.applePay}
                   />
                 </View>
                 <View style={styles.imageContainer}>
                   <CardView onPress={Card}
-                    source={require('../../../assets/images/bitPay.png')}
+                    source={appImages.bitPay}
                   />
                   <CardView onPress={Card}
-                    source={require('../../../assets/images/affrim.png')}
+                    source={appImages.affrim}
                   />
                   <CardView 
-                    source={require('../../../assets/images/klarna.png')}
+                    source={appImages.klarna}
                     onPress={Card}
                   />
                 </View>
@@ -144,39 +146,41 @@ const styles = StyleSheet.create({
   top: {
     height: responsiveScreenWidth(8),
     width: '100%',
-    backgroundColor: '#FFFFC8',
+    backgroundColor: colors.background3,
   },
   center: {
-    backgroundColor: 'white',
+    backgroundColor: colors.background2,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     padding: '5%',
   },
-  bottomContainer: {},
+  
   Text: {
-    color: '#000000',
-    fontSize: responsiveFontSize(1.4),
+    textAlign:'center',
+    color: colors.text4,
+    fontSize: fontSize.paymentText,
+    fontFamily: fontFamily.RobotoRegular
   },
   money: {
     flexDirection: 'row',
   },
   dollar: {
-    color: '#000000',
-    fontFamily: 'Roboto-Bold',
-    fontSize: responsiveFontSize(5),
+    color: colors.text4,
+    fontFamily: fontFamily.RobotoBold,
+    fontSize: fontSize.paymentBold,
   },
   count: {
     fontSize: responsiveFontSize(10),
-    color: '#000000',
-    fontFamily: 'Roboto-Bold',
+    color: colors.text4,
+    fontFamily: fontFamily.RobotoBold,
   },
   cardText: {
-    color: '#FFFFC8',
-    fontFamily: 'Roboto-Medium',
+    color: colors.text3,
+    fontFamily: fontFamily.RobotoMedium,
     alignContent: 'center',
     justifyContent: 'center',
-    fontSize: responsiveFontSize(2),
+    fontSize: fontSize.medium,
     marginTop: 20,
   },
   imageContainer: {

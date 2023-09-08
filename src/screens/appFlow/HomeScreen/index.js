@@ -7,39 +7,58 @@ import {
   Platform,
   ScrollView,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-
 import TimeField from '../../../components/TimeField';
 import {scale} from 'react-native-size-matters';
 import Button from '../../../components/Button';
-
 import InputField from '../../../components/InputField';
-
 import DateFlatList from '../../../components/FlatList';
-
 import {Header2} from '../../../components/Header';
-
 import {AppStyles} from '../../../services/utilities/AppStyle';
-
+import {colors} from '../../../services/utilities/colors';
+import {fontFamily, fontSize} from '../../../services/utilities/fonts';
+import firestore from '@react-native-firebase/firestore';
+import { AuthContext } from '../../../navigation/AuthProvider';
 const Home = ({navigation}) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isOilModalVisible, setIsOilModalVisible] = useState(false);
+  const {user} = useContext(AuthContext)
+  const getTime = () => {
+    const formattedHour =  hours.toString();
+    const formattedMinute =  minuts.toString();
+    const ampm = selectedOption; 
+    return formattedHour + ':' + formattedMinute + ' ' + ampm;
+  };
   const [location, setLocation] = useState('');
   const [oilType, setOilType] = useState('');
-  // const toggleModal = () => {
-  //   setIsModalVisible(!isModalVisible);
-  // };
-  // const toggleOilModal = () => {
-  //   setIsOilModalVisible(!isOilModalVisible);
-  // };
-
   const VehicleInfo = () => {
+    if (!hours || !minuts || !location || !oilType) {
+      Alert.alert('Please fill in all fields before submitting.');
+      return; 
+    }
+    const formattedTime = getTime(hours, minuts, selectedOption);
+    console.log(formattedTime);
+    firestore ()
+        .collection('Schedule')
+        .doc(user.uid)
+        .set({
+          userId: user.uid,
+          date: selectedDate,
+          time: formattedTime,
+          location: location,
+          oilType: oilType,
+        })
+        .then(() => {
+          console.log('User Registered');
+        })
+        .catch(error => {
+          console.log('Something went wrong', error);
+        });
     navigation.navigate('VehicleInfo');
   };
   const [hours, setHours] = useState('');
@@ -48,9 +67,15 @@ const Home = ({navigation}) => {
   const handleOptionPress = option => {
     setSelectedOption(option);
   };
+  const [selectedDate, setSelectedDate] = useState();
+  const handleSelect = (value) => {
+    const date = new Date(value);
+    const formattedDate = date.toDateString(); 
+    setSelectedDate(formattedDate);
+  };
   return (
     <>
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: colors.background2}}>
         <Header2 style={{flex: 4}} Text="Schedule a Time" />
       </View>
 
@@ -69,7 +94,7 @@ const Home = ({navigation}) => {
                   Please Enter Details
                 </Text>
                 <View style={styles.dateContainer}>
-                  <DateFlatList />
+                  <DateFlatList onSelect={handleSelect}/>
                 </View>
                 <View style={styles.timecontainer}>
                   <Text style={[AppStyles.smallBold, {marginTop: 5}]}>
@@ -126,21 +151,17 @@ const Home = ({navigation}) => {
                   </View>
                 </View>
               </View>
-              <View style={{flex:3,justifyContent:'space-between'}}>
-               
+              <View style={{flex: 3, justifyContent: 'space-between'}}>
                 <InputField
-
-
-                style={styles.location}
-                  label="Birthday"
+                  style={styles.location}
+                  label="Location"
                   placeholder="Please enter your address"
                   onChangeText={setLocation}
                   value={location}
                   type="default"
                   location={true}
-                  backgroundColor="#F7F7F7"
-                  color={'#444444CC'}
-                  
+                  backgroundColor={colors.field2}
+                  color={colors.text5}
                 />
                 <InputField
                   label="Oil Type"
@@ -148,20 +169,19 @@ const Home = ({navigation}) => {
                   placeholder={
                     'Please select Oil type from here \n(All Oil High Quality Synthetic)'
                   }
-                  color={'#444444CC'}
+                  color={colors.text5}
                   onChangeText={setOilType}
                   value={oilType}
                   type="default"
                   OilType={true}
-                  backgroundColor="#F7F7F7"
+                  backgroundColor={colors.field2}
                 />
-                
+
                 <View style={styles.button}>
                   <Button
                     text="Lock it in!"
-                    startColor="#FFFFC8"
-                    endColor="#FFFFC8"
-                    textColor="black"
+                    color={colors.buttonGradiant3}
+                    textColor={colors.text4}
                     onPress={VehicleInfo}
                   />
                 </View>
@@ -179,13 +199,13 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background2,
   },
 
   text: {
-    color: '#222222',
-    fontFamily: 'Roboto-Bold',
-    fontSize: responsiveFontSize(2.5),
+    color: colors.text1,
+    fontFamily: fontFamily.RobotoBold,
+    fontSize: fontSize.large,
     marginVertical: responsiveScreenHeight(2),
   },
   dateContainer: {
@@ -208,19 +228,19 @@ const styles = StyleSheet.create({
     height: scale(80),
     width: scale(40),
     borderWidth: scale(0.8),
-    borderColor: '#000000',
+    borderColor: colors.border4,
     borderRadius: scale(10),
   },
   am: {
-    fontSize: responsiveFontSize(2),
+    fontSize: fontSize.medium,
     textAlign: 'center',
     paddingVertical: scale(9.3),
-    color: '#000000',
+    color: colors.text4,
   },
   selectedOption: {
     width: '100%',
     height: '49%',
-    backgroundColor: '#FFFFC8',
+    backgroundColor: colors.background3,
   },
   location: {
     marginBottom: responsiveScreenHeight(3),
@@ -230,6 +250,5 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: scale(15),
     alignItems: 'center',
-  
   },
 });

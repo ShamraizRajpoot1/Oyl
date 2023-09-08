@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -24,8 +24,12 @@ import Button from '../../../components/Button';
 import Header from '../../../components/Header/Header1';
 import {AppStyles} from '../../../services/utilities/AppStyle';
 import {appImages, appIcons} from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import AuthProvider, { AuthContext } from '../../../navigation/AuthProvider';
+import { fontFamily } from '../../../services/utilities/fonts';
 
 const SignUp = ({navigation}) => {
+  const {register} =useContext(AuthContext);
   const [isChecked, setIsChecked] = useState(true);
   const toggleCheckbox = () => {
     setIsChecked(prevChecked => !prevChecked);
@@ -35,8 +39,8 @@ const SignUp = ({navigation}) => {
     height: scale(12),
     borderWidth: 2,
     borderRadius: 100,
-    borderColor: isChecked ? '#FFFFC869' : 'red',
-    backgroundColor: '#FFFFFF',
+    borderColor: isChecked ? colors.border6 : colors.border5,
+    backgroundColor: colors.background2,
     marginRight: responsiveScreenWidth(2),
   };
   const back = () => {
@@ -49,13 +53,18 @@ const SignUp = ({navigation}) => {
     navigation.navigate('PrivacyPolicy');
   };
   const letsGo = () => {
-    navigation.navigate('Profile');
+    if(isChecked){
+    register(email,password)?
+    navigation.navigate('Profile') : Alert.alert("please check your email or password")}
+    else {
+      Alert.alert("Please Accept Terms of condition and privacy policy")
+    }
   };
-  const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <>
-      <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
+      
       <View style={{flex: 1}}>
         <Header Image={true} text="Create Account" onPress={back} />
         <ImageBackground
@@ -73,20 +82,21 @@ const SignUp = ({navigation}) => {
                   <View style={styles.body}>
                     <View style={styles.input}>
                       <InputField
-                        label="Phone"
+                        label="Email"
                         placeholder="Enter Your Phone Here"
-                        onChangeText={setPhone}
-                        value={phone}
-                        type="numeric"
+                        onChangeText={setEmail}
+                        value={email}
+                        type="email-address"
                       />
                     </View>
                     <View style={styles.input}>
                       <InputField
-                        label="Otp"
-                        placeholder="684 575"
-                        onChangeText={setOtp}
-                        value={otp}
-                        type="numeric"
+                        label="Password"
+                        placeholder="Password"
+                        onChangeText={setPassword}
+                        value={password}
+                        secureTextEntry={true}
+                        type="default"
                       />
                     </View>
                     <View style={[AppStyles.toggleview,{marginTop: responsiveScreenWidth(7)}]}>
@@ -94,7 +104,7 @@ const SignUp = ({navigation}) => {
                         <View style={toggle}>
                           {isChecked && (
                             <Image
-                              source={require('../../../assets/icons/tick.png')}
+                              source={appIcons.tick}
                               style={styles.toggleimg}
                             />
                           )}
@@ -103,13 +113,13 @@ const SignUp = ({navigation}) => {
                       <Text
                         style={[
                           AppStyles.smallBold,
-                          {fontFamily: 'Roboto', color: '#FFFFFF'},
+                          {fontFamily: fontFamily.RobotoRegular, color: colors.text6},
                         ]}>
                       
                         I accept the{' '}
                       </Text>
                       <TouchableOpacity onPress={Terms}>
-                        <Text style={[AppStyles.smallBold, {color: '#FFFFCC'}]}>
+                        <Text style={[AppStyles.smallBold, {color: colors.text7}]}>
                         
                           Terms of Service{' '}
                         </Text>
@@ -117,12 +127,12 @@ const SignUp = ({navigation}) => {
                       <Text
                         style={[
                           AppStyles.smallBold,
-                          {fontFamily: 'Roboto', color: '#FFFFFF'},
+                          {fontFamily: fontFamily.RobotoRegular, color: colors.text6},
                         ]}>
                         and{' '}
                       </Text>
                       <TouchableOpacity onPress={Privacy}>
-                        <Text style={[AppStyles.smallBold, {color: '#FFFFCC'}]}>
+                        <Text style={[AppStyles.smallBold, {color: colors.text7}]}>
                           Privacy Policy
                         </Text>
                       </TouchableOpacity>
@@ -132,9 +142,8 @@ const SignUp = ({navigation}) => {
                   <View style={styles.button}>
                     <Button
                       text="Lets go!"
-                      startColor="#FFFFFF"
-                      endColor="#FFFFCC"
-                      textColor="black"
+                      color={colors.buttonGradiant1}
+                      textColor={colors.text4}
                       onPress={letsGo}
                     />
                   </View>
@@ -170,7 +179,7 @@ const styles = StyleSheet.create({
     marginTop: responsiveScreenHeight(2),
     paddingHorizontal: responsiveScreenWidth(3),
     flexDirection: 'row',
-    justifyContent: '',
+    
   },
   toggleimg: {
     height: scale(13),

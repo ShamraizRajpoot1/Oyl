@@ -6,7 +6,6 @@ import {
   Modal,
   Image,
   TextInput,
-  StatusBar,
   TouchableOpacity, // Import TouchableOpacity
 } from 'react-native';
 import {
@@ -16,11 +15,14 @@ import {
 import {scale} from 'react-native-size-matters';
 import ModalButton from '../../Button/ModalButton';
 import { appIcons } from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import { AppStyles } from '../../../services/utilities/AppStyle';
+import LinearGradient from 'react-native-linear-gradient';
+import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const Location = props => {
   return (
-    <>
-      <StatusBar hidden={true} />
+   
       <Modal
         transparent={true}
         visible={props.isVisible}
@@ -32,16 +34,21 @@ const Location = props => {
           onPress={props.onBackdropPress} 
         >
           <View style={styles.modalContent}>
-            <View style={styles.circle}>
+            <View style={AppStyles.circle}>
+              <LinearGradient 
+              colors={colors.circlegradiant}
+              style={AppStyles.circleGradient}
+              >
               <Image
                 source={appIcons.locationIcon}
                 style={styles.image}
               />
+              </LinearGradient>
             </View>
             <Text style={styles.modaltxt}>Add Location</Text>
             <TextInput
               placeholder="Search here"
-              placeholderTextColor="#3A3A3A"
+              placeholderTextColor={colors.placeholdar2}
               onChangeText={props.onChangeText}
               value={props.value}
               style={styles.input}
@@ -49,14 +56,15 @@ const Location = props => {
 
             <ModalButton
               style={styles.modalbtn}
+              color={colors.buttonGradiant4}
               text="Submit"
-              textColor="black"
+              textColor={colors.text4}
               onPress={props.onPress}
             />
           </View>
           </TouchableOpacity>
       </Modal>
-    </>
+   
   );
 };
 
@@ -67,26 +75,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: colors.background1,
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: colors.background2,
     width: responsiveScreenWidth(90),
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circle: {
-    position: 'absolute',
-    top: responsiveScreenWidth(-15),
-    width: responsiveScreenWidth(26),
-    backgroundColor: 'black',
-    height: responsiveScreenWidth(26),
-    borderRadius: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+ 
   image: {
     width: scale(33),
     height: scale(45),
@@ -94,20 +93,19 @@ const styles = StyleSheet.create({
   input: {
     justifyContent:'center',
     marginTop: responsiveScreenWidth(2),
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.field3,
     width: responsiveScreenWidth(80),
     padding: responsiveScreenWidth(1.7),
     borderRadius: 12,
-    fontSize: responsiveFontSize(1.5),
+    fontSize: fontSize.inputText,
     paddingLeft: responsiveScreenWidth(2),
-    color:'#3A3A3A',
-    fontFamily:'Poppins-Light'
+    color:colors.placeholdar2,
+    fontFamily:fontFamily.PoppinsLight
   },
   modaltxt: {
     fontSize: responsiveFontSize(2),
-    fontFamily: 'Poppins-Medium',
-    color: '#000000',
+    fontFamily: fontFamily.PoppinsMedium,
+    color: colors.text4,
     marginTop: responsiveScreenWidth(10),
   },
-  modalbtn: {},
 });

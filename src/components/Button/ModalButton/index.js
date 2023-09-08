@@ -2,11 +2,13 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { responsiveFontSize, responsiveHeight, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions';
+import { colors } from '../../../services/utilities/colors';
+import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const ModalButton = (props) => {
   return (
     <LinearGradient
-    colors={['#4B4B3C', '#000000']}
+    colors={props.color}
     start={{ x: 0, y: 0 }} 
     end={{ x: 1, y: 1 }}   
     style={styles.container}
@@ -38,9 +40,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    color:'#FFFFFF',
-    fontFamily: 'Poppins',
-    fontSize: responsiveFontSize(1.5),
+    color:colors.text6,
+    fontFamily: fontFamily.PoppinsRegular,
+    fontSize: fontSize.buttonText2
   },
 });
 

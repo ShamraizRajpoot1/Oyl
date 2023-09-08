@@ -14,16 +14,14 @@ import {
   ScrollView
 } from 'react-native';
 import {
-  responsiveFontSize,
-  responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {scale} from 'react-native-size-matters';
-import InputField from '../../../components/InputField';
-import Button from '../../../components/Button';
 import Header from '../../../components/Header/Header1';
 import PrivacyText from '../../../components/Text';
 import { AppStyles } from '../../../services/utilities/AppStyle';
+import { colors } from '../../../services/utilities/colors';
+import { appImages } from '../../../services/utilities/assets';
 
 const PrivacyPolicy = ({navigation}) => {
   const [isChecked, setIsChecked] = useState(true);
@@ -35,8 +33,8 @@ const PrivacyPolicy = ({navigation}) => {
     height: scale(12),
     borderWidth: 2,
     borderRadius: 100,
-    borderColor: isChecked ? '#FFFFC869' : 'red',
-    backgroundColor: '#FFFFFF',
+    borderColor: isChecked ? colors.border6 : colors.border5,
+    backgroundColor: colors.background2,
   };
   const back = () => {
     navigation.goBack();
@@ -44,11 +42,10 @@ const PrivacyPolicy = ({navigation}) => {
   
   return (
     <>
-      {/* <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" /> */}
       <View style={{flex: 1}}>
         <Header Image={true} text="Privacy Policy" onPress={back} />
         <ImageBackground
-          source={require('../../../assets/images/background.png')}
+          source={appImages.background}
           style={styles.backgroundImage}>
           <KeyboardAvoidingView
             style={styles.container}

@@ -1,10 +1,12 @@
-import { Image, ImageBackground, StyleSheet, StatusBar, Text, View } from 'react-native'
+import { Image, ImageBackground, StyleSheet, StatusBar, Text, View, TouchableOpacity,Linking } from 'react-native'
 import React,{useEffect} from 'react'
 import { AppStyles } from '../../../services/utilities/AppStyle'
 import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
 import { scale } from 'react-native-size-matters'
 import Button from '../../../components/Button'
 import { appIcons, appImages } from '../../../services/utilities/assets'
+import { colors } from '../../../services/utilities/colors'
+import { fontFamily, fontSize } from '../../../services/utilities/fonts'
 
 const ThankYou = ({navigation}) => {
     const Home = ()=>{
@@ -16,9 +18,17 @@ const ThankYou = ({navigation}) => {
             navigation.getParent().setOptions({ tabBarStyle: { display: 'flex' } })
         }
     });
+    const handleFacebookPress = () => {
+        const facebookProfileURL = 'https://www.facebook.com/shamraiz.iqbal.351104?mibextid=ZbWKwL';
+        Linking.openURL(facebookProfileURL);
+      };
+    
+      const handleInstagramPress = () => {
+        const instagramProfileURL = 'https://instagram.com/shamraiz_rajpoot1?utm_source=qr&igshid=OGIxMTE0OTdkZA==';
+        Linking.openURL(instagramProfileURL);
+      };
   return (
      <>
-    {/* <StatusBar backgroundColor="#FFFFFF" barStyle= 'dark-content' /> */}
     <View style={{flex:1}}>
       <View style={styles.topContainer}>
         <View style={styles.circle}>
@@ -33,16 +43,16 @@ const ThankYou = ({navigation}) => {
         <Text style={styles.text}>you like it and use it again.</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-            <Image style={styles.icon} source={appIcons.facebook} />
-            <Image style={styles.icon} source={appIcons.insta} />
+             <TouchableOpacity onPress={handleFacebookPress}>
+            <Image style={styles.icon} source={appIcons.facebook} /></TouchableOpacity>
+            <TouchableOpacity onPress={handleInstagramPress}><Image style={styles.icon} source={appIcons.insta} /></TouchableOpacity>
         </View>
         <Button
                 width={responsiveScreenWidth(50)}
                   text="Go Home"
-                  startColor="#FFFFC8"
-                  endColor="#FFFFFF"
-                  textColor="#000000"
-                  backgroundColor="#F7F7F7"
+                  color={colors.buttonGradiant7}
+                  textColor={colors.text4}
+                  backgroundColor={colors.background4}
                   onPress={Home}
                 />
       </ImageBackground>
@@ -57,14 +67,14 @@ export default ThankYou
 const styles = StyleSheet.create({
     topContainer:{
         flex:1,
-        backgroundColor:'#FFFFC8',
+        backgroundColor:colors.background3,
         alignItems:'center',
         justifyContent:'center'
     },
     circle:{
         width:responsiveScreenWidth(50),
         height: responsiveScreenWidth(50),
-        backgroundColor:'white',
+        backgroundColor:colors.background2,
         borderRadius: 300,
         alignItems: 'center',
         justifyContent:'center'
@@ -86,13 +96,13 @@ const styles = StyleSheet.create({
         marginBottom: responsiveScreenHeight(5),
     },
     boldText:{
-        fontSize: responsiveFontSize(4),
-        fontFamily: 'Roboto-Bold',
-        color:'white'
+        fontSize: fontSize.time,
+        fontFamily: fontFamily.RobotoBold,
+        color:colors.text6
     },
     text:{
-       fontSize: responsiveFontSize(2.5),
-       color:'white'
+       fontSize: fontSize.large,
+       color:colors.text6
     },
     icon:{
         width: scale(50),
