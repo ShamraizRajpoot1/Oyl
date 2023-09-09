@@ -35,7 +35,6 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBackPress = () => {
-    navigation.goBack();
      return true;
    };
    useEffect(() => {

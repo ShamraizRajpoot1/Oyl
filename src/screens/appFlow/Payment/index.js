@@ -1,5 +1,5 @@
 import {ScrollView, StatusBar, StyleSheet, Text, View, BackHandler} from 'react-native';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {AppStyles} from '../../../services/utilities/AppStyle';
 import {ImageBackground} from 'react-native';
 import {Header1} from '../../../components/Header';

@@ -53,7 +53,7 @@ const SignIn = ({ navigation }) => {
 
     login(email, password)
       .then((user) => {
-        console.log('User:', user); // Log the user object (if available)
+        console.log('User:', user); 
         if (user) {
           return AsyncStorage.setItem('Token', user.uid);
         } else {
@@ -65,7 +65,7 @@ const SignIn = ({ navigation }) => {
         Toast.show('Login Successful', Toast.LONG);
       })
       .catch((error) => {
-        console.error('Login error:', error); // Log any errors
+        console.error('Login error:', error); 
         Toast.show('Please Check your email and Password', Toast.LONG);
       })
       .finally(() => {
