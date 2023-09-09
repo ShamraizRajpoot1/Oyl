@@ -19,6 +19,7 @@ import { appImages } from '../../../services/utilities/assets';
 import { colors } from '../../../services/utilities/colors';
 import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../../navigation/AuthProvider';
+import Toast from 'react-native-simple-toast';
 
 const EditProfile = ({navigation}) => {
 
@@ -67,11 +68,12 @@ const EditProfile = ({navigation}) => {
         })
         .then(() => {
           console.log('Profile Updated successful');
-          Alert.alert("Profile Updated successfull");
+          Toast.show('Profile Updated successful', Toast.LONG);
           navigation.goBack();
         })
         .catch(error => {
           console.log('Something went wrong', error);
+          Toast.show('Something went wrong', Toast.LONG);
         });
     
   };

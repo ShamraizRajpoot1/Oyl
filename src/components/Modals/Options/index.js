@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {
-  responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
@@ -45,7 +44,7 @@ const Options = props => {
       
       await AsyncStorage.removeItem('Token');
       logout()
-    navigation.navigate("AuthStack") 
+      navigation.navigate("AuthStack", { screen: "SignIn" }); 
       } catch (error) {
       console.error('Error getting Token from AsyncStorage:', error);
     }

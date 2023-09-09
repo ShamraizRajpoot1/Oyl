@@ -111,7 +111,7 @@ const Home = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={AppStyles.contentContainer}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <TouchableWithoutFeedback >
             <>
             <View style={{ backgroundColor: colors.background2}}>
               <Header2 Text="Schedule a Time" />
