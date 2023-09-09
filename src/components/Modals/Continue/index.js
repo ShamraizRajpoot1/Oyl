@@ -28,12 +28,12 @@ const ContinueModal = props => {
       <Modal
         transparent={true}
         visible={props.isVisible}
-        onRequestClose={props.onBackdropPress} 
+        //onRequestClose={props.onBackdropPress} 
       >
         <TouchableOpacity 
           style={styles.modalContainer}
           activeOpacity={1} 
-          onPress={props.onBackdropPress} 
+          //onPress={props.onBackdropPress} 
         >
             <ImageBackground source={appImages.background} imageStyle={{borderTopLeftRadius: 70,borderTopRightRadius: 70,}} >
           <View style={styles.modalContent}>

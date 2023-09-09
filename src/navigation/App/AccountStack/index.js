@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const AccountStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false,  }}>
+    <Stack.Navigator screenOptions={{headerShown: false,}} initialRouteName='UserProfile'>
        <Stack.Screen name='UserProfile' component={UserProfile} />
         <Stack.Screen name='EditProfile' component={EditProfile} />
         <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicy} />

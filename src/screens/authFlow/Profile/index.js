@@ -9,7 +9,8 @@ import {
   Platform,
   ScrollView,
   TouchableWithoutFeedback,
-  BackHandler
+  BackHandler,
+  ActivityIndicator
 } from 'react-native';
 import InputField from '../../../components/InputField';
 import Button from '../../../components/Button';
@@ -19,6 +20,7 @@ import { appImages } from '../../../services/utilities/assets';
 import { colors } from '../../../services/utilities/colors';
 import { AuthContext } from '../../../navigation/AuthProvider';
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = ({navigation}) => {
   const {user} = useContext(AuthContext)
@@ -30,37 +32,61 @@ const Profile = ({navigation}) => {
   const [vehicleYear, setVehicleYear] = useState('');
   const [vehicleColor, setVehicleColor] = useState('');
   const [vehicleMileage, setVehicleMileage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const handleBackPress = () => {
     return true; 
   };
-  const Home = async() => {
-    firestore ()
-        .collection('Users')
-        .doc(user.uid)
-        .set({
-          userId: user.uid,
-          email: user.email,
-          firstName: firstName,
-          lastName: lastName,
-          birthday:birthday,
-          vehicleInfo:{
+  const Home = async () => {
+    if (
+      !user ||
+      !user.uid ||
+      !firstName ||
+      !lastName ||
+      !birthday ||
+      !vehicleMake ||
+      !vehicleModel ||
+      !vehicleYear ||
+      !vehicleColor ||
+      !vehicleMileage
+    ) {
+      Toast.show('Please fill in all fields', Toast.LONG);
+      return;
+    }
+    setIsLoading(true);
+    const formattedBirthday = formatDateToYYYYMMDD(birthday);
+    firestore()
+      .collection('Users')
+      .doc(user.uid)
+      .set({
+        userId: user.uid,
+        email: user.email,
+        firstName: firstName,
+        lastName: lastName,
+        birthday: formattedBirthday, 
+        vehicleInfo: {
           vehicleMake: vehicleMake,
           vehicleModel: vehicleModel,
-          vehicleYear:vehicleYear,
+          vehicleYear: vehicleYear,
           vehicleColor: vehicleColor,
-          vehicleMileage: vehicleMileage
-          }
-        })
-        .then(async() => {
-          console.log('User Registered');
-          Toast.show('User Registered', Toast.LONG);
-          await AsyncStorage.setItem('Token', user.uid)
-          navigation.navigate('AppStack');
-        })
-        .catch(error => {
-          console.log('Something went wrong', error);
-        });
-    
+          vehicleMileage: vehicleMileage,
+        },
+      })
+      .then(async () => {
+        console.log('User Registered');
+        Toast.show('User Registered', Toast.LONG);
+        await AsyncStorage.setItem('Token', user.uid);
+        navigation.navigate('AppStack');
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log('Something went wrong', error);
+      });
+  };
+  const formatDateToYYYYMMDD = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
   };
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -82,7 +108,14 @@ const Profile = ({navigation}) => {
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}>
-          <ScrollView contentContainerStyle={AppStyles.contentContainer}>
+             {isLoading ? (
+          <View style={AppStyles.loadingContainer}>
+            <ActivityIndicator size="large" color={colors.buttonGradiant1} />
+          </View>
+        ) : (
+          <ScrollView contentContainerStyle={AppStyles.contentContainer} 
+          keyboardShouldPersistTaps="handled"
+          >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={{flex: 1}}>
                 <View style={styles.field}>
@@ -156,7 +189,7 @@ const Profile = ({navigation}) => {
                 </View>
               </View>
             </TouchableWithoutFeedback>
-          </ScrollView>
+          </ScrollView>)}
         </KeyboardAvoidingView>
       </ImageBackground>
     </View>

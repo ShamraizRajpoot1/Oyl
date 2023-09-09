@@ -42,8 +42,9 @@ const Options = props => {
   };
   const Logout = async () => {
     try {
-      const a = "A"
+      
       await AsyncStorage.removeItem('Token');
+      logout()
     navigation.navigate("AuthStack") 
       } catch (error) {
       console.error('Error getting Token from AsyncStorage:', error);

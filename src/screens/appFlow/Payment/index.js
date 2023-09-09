@@ -1,4 +1,4 @@
-import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, Text, View, BackHandler} from 'react-native';
 import React,{useState} from 'react';
 import {AppStyles} from '../../../services/utilities/AppStyle';
 import {ImageBackground} from 'react-native';
@@ -14,6 +14,17 @@ import { colors } from '../../../services/utilities/colors';
 import { fontFamily, fontSize } from '../../../services/utilities/fonts';
 
 const Payment = ({navigation}) => {
+  const handleBackPress = () => {
+    navigation.goBack();
+     return true;
+   };
+   useEffect(() => {
+     const backHandler = BackHandler.addEventListener(
+       'hardwareBackPress',
+       handleBackPress,
+     );
+     return () => backHandler.remove();
+   }, []);
     
   const [cardDetailModalVisible, setCardDetailModalVisible] = useState(false);
   const [continueModalVisible, setContinueModalVisible] = useState(false);

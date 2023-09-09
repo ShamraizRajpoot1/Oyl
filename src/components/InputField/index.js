@@ -11,6 +11,7 @@ import {
   responsiveFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
+  useResponsiveScreenHeight,
 } from 'react-native-responsive-dimensions';
 import {scale} from 'react-native-size-matters';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.field1,
     marginHorizontal: responsiveScreenWidth(7),
-    marginVertical: responsiveScreenWidth(2),
+    marginVertical: responsiveScreenHeight(0.6),
     borderRadius: scale(10),
     padding: '1%',
     width: '86%',

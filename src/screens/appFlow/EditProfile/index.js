@@ -3,7 +3,7 @@ import {
   View,
   StyleSheet,
   ImageBackground,
-  StatusBar,
+  BackHandler,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -21,6 +21,18 @@ import firestore from '@react-native-firebase/firestore';
 import { AuthContext } from '../../../navigation/AuthProvider';
 
 const EditProfile = ({navigation}) => {
+
+  const handleBackPress = () => {
+   navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   const {user} = useContext(AuthContext);
   
@@ -66,6 +78,7 @@ const EditProfile = ({navigation}) => {
   const back = () => {
     navigation.goBack();
   };
+  
   useEffect(() => {
     const fetchUserProfileData = async () => {
       try {
@@ -108,12 +121,13 @@ const EditProfile = ({navigation}) => {
             text="Edit Profile"
             Image={true}
           />
-
           <KeyboardAvoidingView
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}>
-            <ScrollView contentContainerStyle={AppStyles.contentContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={AppStyles.contentContainer} 
+             keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{flex: 1}}>
                   <View style={styles.field}>

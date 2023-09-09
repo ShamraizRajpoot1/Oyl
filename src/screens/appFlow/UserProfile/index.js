@@ -2,12 +2,11 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  BackHandler
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Header from '../../../components/Header/Header1';
@@ -35,7 +34,20 @@ const UserProfile = () => {
   const [optionModalVisible, setOptionModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleBackPress = () => {
+    navigation.goBack();
+     return true;
+   };
+   useEffect(() => {
+     const backHandler = BackHandler.addEventListener(
+       'hardwareBackPress',
+       handleBackPress,
+     );
+     return () => backHandler.remove();
+   }, []);
+
   const toggleModal = () => {
+ 
     setOptionModalVisible(prev => !prev);
   };
   useEffect(() => {
@@ -78,7 +90,7 @@ const UserProfile = () => {
         style={AppStyles.backgroundImage}>
         <View style={{flex: 1}}>
           <Header 
-            Image = {true}
+              
             text="User Profile"
             options={true}
             onPress={toggleModal}
@@ -94,7 +106,9 @@ const UserProfile = () => {
           </View>
         ) :
             (<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={AppStyles.contentContainer}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
+               keyboardShouldPersistTaps="handled"
+              >
                 <View style={{flex: 1}}>
                   <View style={styles.field}>
                     <InputField
@@ -119,7 +133,6 @@ const UserProfile = () => {
                       onChangeText={setBirthday}
                       value={birthday}
                       type="default"
-                      calendar={true}
                       editable={false}
                     />
                     <InputField

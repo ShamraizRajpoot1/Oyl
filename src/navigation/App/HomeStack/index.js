@@ -9,11 +9,16 @@ const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown : false}} >
+    <Stack.Navigator screenOptions={{headerShown : false, }} initialRouteName='Home' >
         <Stack.Screen name='Home' component={Home}   />
         <Stack.Screen name='VehicleInfo' component={VehicleInfo} />
         <Stack.Screen name='Payment' component={Payment} />
-        <Stack.Screen name="ThankYou" component={ThankYou}  />
+        <Stack.Screen
+        name='ThankYou'
+        component={ThankYou}
+        options={{
+          tabBarVisible: false, // Hide the tab bar for ThankYou screen
+        }} />
     </Stack.Navigator>
   )
 }

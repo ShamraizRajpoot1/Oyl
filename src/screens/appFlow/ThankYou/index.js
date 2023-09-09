@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, StatusBar, Text, View, TouchableOpacity,Linking } from 'react-native'
+import { Image, ImageBackground, StyleSheet, StatusBar, Text, View, TouchableOpacity,Linking, BackHandler } from 'react-native'
 import React,{useEffect} from 'react'
 import { responsiveFontSize, responsiveScreenHeight, responsiveScreenWidth } from 'react-native-responsive-dimensions'
 import { scale } from 'react-native-size-matters'
@@ -8,15 +8,25 @@ import { colors } from '../../../services/utilities/colors'
 import { fontFamily, fontSize } from '../../../services/utilities/fonts'
 
 const ThankYou = ({navigation}) => {
+    const handleBackPress = () => {
+         return true;
+       };
+       useEffect(() => {
+         const backHandler = BackHandler.addEventListener(
+           'hardwareBackPress',
+           handleBackPress,
+         );
+         return () => backHandler.remove();
+       }, []);
     const Home = ()=>{
         navigation.navigate('Home')
     }
     useEffect(() => {
-        navigation.getParent().setOptions({ tabBarStyle: { display: 'none' } })
+        navigation.getParent().setOptions({ tabBarStyle: false })
         return()=>{
-            navigation.getParent().setOptions({ tabBarStyle: { display: 'flex' } })
+            navigation.getParent().setOptions({ tabBarStyle: true })
         }
-    });
+    })
     const handleFacebookPress = () => {
         const facebookProfileURL = 'https://www.facebook.com/shamraiz.iqbal.351104?mibextid=ZbWKwL';
         Linking.openURL(facebookProfileURL);
@@ -93,6 +103,7 @@ const styles = StyleSheet.create({
         width:scale(130),
         height: scale(120),
         marginBottom: responsiveScreenHeight(5),
+        zIndex:99
     },
     boldText:{
         fontSize: fontSize.time,
@@ -106,6 +117,7 @@ const styles = StyleSheet.create({
     icon:{
         width: scale(50),
         height: scale(50),
+        zIndex:99,
         marginHorizontal:responsiveScreenWidth(2)
     }
 })

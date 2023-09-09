@@ -5,15 +5,11 @@ import SignUp from '../../screens/authFlow/Signup';
 import Profile from '../../screens/authFlow/Profile';
 import PrivacyPolicy from '../../screens/appFlow/PrivacyPolicy';
 import TermsOfService from '../../screens/appFlow/TermsOfService';
-import {AuthContext} from '../AuthProvider';
-import Splash from '../../screens/authFlow/Splash';
-
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}} >
-       {/* <Stack.Screen name="Splash" component={Splash} /> */}
+    <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='SignIn'>
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Profile" component={Profile} />

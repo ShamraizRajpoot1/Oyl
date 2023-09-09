@@ -6,8 +6,10 @@ import CustomTabBar from '../../../components/TabBar';
 
 const Bottom = createBottomTabNavigator();
 
-const BottomTab = () => {
+const BottomTab = ({ tabBarVisible }) => {
+  
   return (
+    
     <Bottom.Navigator
       tabBar={props => <CustomTabBar {...props} />} 
     >

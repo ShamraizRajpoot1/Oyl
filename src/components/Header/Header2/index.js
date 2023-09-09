@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { responsiveFontSize } from 'react-native-responsive-dimensions'
+import { responsiveFontSize, responsiveScreenHeight } from 'react-native-responsive-dimensions'
 import { ImageBackground } from 'react-native'
 import { appImages } from '../../../services/utilities/assets'
 import { scale } from 'react-native-size-matters'
@@ -13,7 +13,7 @@ const Header2 = (props) => {
      <ImageBackground
         source={appImages.background}
         style={styles.backgroundImage}
-        imageStyle={{borderBottomLeftRadius: scale(50), borderBottomRightRadius: scale(50)}}>
+        imageStyle={{borderBottomLeftRadius: scale(40), borderBottomRightRadius: scale(40)}}>
         <View style={styles.header}>
           <Text style={styles.headertext}>{props.Text}</Text>
         </View>
@@ -26,9 +26,9 @@ export default Header2
 
 const styles = StyleSheet.create({
     header: {
-        flex: 2,
-        borderBottomEndRadius: 50,
-        borderBottomLeftRadius: 50,
+     height: responsiveScreenHeight(17),
+        borderBottomEndRadius: scale(50),
+        borderBottomLeftRadius: scale(50),
         alignItems: 'center',
         justifyContent: 'center',
       },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
       },
       backgroundImage: {
         backgroundColor: colors.background2,
-        flex: 1,
+        height: responsiveScreenHeight(17),
         resizeMode: 'cover',
         borderBottomLeftRadius: scale(50),
         borderBottomRightRadius: scale(50),

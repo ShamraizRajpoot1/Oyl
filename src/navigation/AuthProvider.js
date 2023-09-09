@@ -12,12 +12,14 @@ const AuthProvider = ({children}) => {
         setUser,
         login: async (email, password) => {
           try {
-            auth().signInWithEmailAndPassword(email, password);
+            const userCredential = await auth().signInWithEmailAndPassword(email, password);
+            return userCredential.user;
           } catch (e) {
             console.log(e);
-            Alert.alert(e.message);
+            throw e; 
           }
         },
+        
         register: async (email, password, name) => {
           try {
             const response = await auth().createUserWithEmailAndPassword(

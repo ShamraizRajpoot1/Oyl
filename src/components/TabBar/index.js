@@ -7,8 +7,10 @@ import { colors } from '../../services/utilities/colors';
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-
-  if (focusedOptions.tabBarVisible === false) {
+  console.log('====================================');
+  console.log(focusedOptions);
+  console.log('====================================');
+  if (focusedOptions.tabBarStyle === false) {
     return null;
   }
 

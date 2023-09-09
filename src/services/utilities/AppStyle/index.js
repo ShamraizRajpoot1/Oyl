@@ -30,7 +30,8 @@ export const AppStyles = StyleSheet.create({
     },
     largeBoldText: {
       alignSelf:'center',
-      marginVertical: scale(18),
+      marginVertical: responsiveScreenHeight(2),
+      //marginTop: responsiveScreenHeight(-2),
       color: colors.text1,
       fontWeight: 'bold',
       fontSize: fontSize.large,
@@ -125,9 +126,9 @@ export const AppStyles = StyleSheet.create({
           fontSize: fontSize.modalText
       },
       toggleview: {
-        
         marginLeft: responsiveScreenWidth(7),
         flexDirection: 'row',
+        marginTop: responsiveScreenWidth(3)
       },
       loadingContainer: {
         flex: 1,

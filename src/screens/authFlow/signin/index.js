@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
   BackHandler,
+  TouchableWithoutFeedback
 } from 'react-native';
 import {
   responsiveScreenHeight,
@@ -21,82 +20,98 @@ import {
 } from 'react-native-responsive-dimensions';
 import InputField from '../../../components/InputField';
 import Button from '../../../components/Button';
-import {AppStyles} from '../../../services/utilities/AppStyle';
-import {appImages, appIcons} from '../../../services/utilities/assets';
-import {colors} from '../../../services/utilities/colors';
-import {AuthContext} from '../../../navigation/AuthProvider';
+import { AppStyles } from '../../../services/utilities/AppStyle';
+import { appImages } from '../../../services/utilities/assets';
+import { colors } from '../../../services/utilities/colors';
+import { AuthContext } from '../../../navigation/AuthProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 
-const SignIn = ({navigation}) => {
-
+const SignIn = ({ navigation }) => {
   const handleBackPress = () => {
     BackHandler.exitApp();
     return true;
   };
 
-  const {login, user} = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const Home = async () => {
-    if (!email || !password) {
-      Alert.alert('Please check email and password ');
+  const isValidEmail = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
+
+  const Home = () => {
+    if (!isValidEmail(email)) {
+      Toast.show('Invalid email address', Toast.LONG);
+      return;
     }
+
     setLoading(true);
-    try {
-      await login(email, password);
-      {
-        user
-          ? (await AsyncStorage.setItem('Token', user.uid),
-            navigation.navigate('AppStack'),
-            Toast.show('Login Successful', Toast.LONG)
-            )
-          : null;
-      }
-    } catch (error) {
-      console.error(error);
-      Toast.show('Please Check your email and Password', Toast.LONG)
-    } finally {
-      setLoading(false);
-    }
+
+    login(email, password)
+      .then((user) => {
+        console.log('User:', user); // Log the user object (if available)
+        if (user) {
+          return AsyncStorage.setItem('Token', user.uid);
+        } else {
+          throw new Error('Login failed');
+        }
+      })
+      .then(() => {
+        navigation.navigate('AppStack');
+        Toast.show('Login Successful', Toast.LONG);
+      })
+      .catch((error) => {
+        console.error('Login error:', error); // Log any errors
+        Toast.show('Please Check your email and Password', Toast.LONG);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const create = () => {
     navigation.navigate('SignUp');
   };
-  
+
   useEffect(() => {
-  const id = AsyncStorage.getItem('Token')
-  console.log("id" ,id)
-    
+    const id = AsyncStorage.getItem('Token');
+    console.log('id', id);
   }, []);
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
-      handleBackPress,
+      handleBackPress
     );
     return () => backHandler.remove();
   }, []);
+
   return (
     <ImageBackground
       source={appImages.background}
-      style={AppStyles.backgroundImage}>
+      style={AppStyles.backgroundImage}
+    >
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}>
-        {loading ? (
-          <View style={AppStyles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.buttonGradiant1} />
-          </View>
-        ) : (
-          <ScrollView
-            style={{flex: 1}}
-            contentContainerStyle={AppStyles.contentContainer}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={{flex: 1}}>
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500}
+      >
+        <TouchableWithoutFeedback >
+          <View style={{ flex: 1 }}>
+            {loading ? (
+              <View style={AppStyles.loadingContainer}>
+                <ActivityIndicator size="large" color={colors.buttonGradiant1} />
+              </View>
+            ) : (
+              <ScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={AppStyles.contentContainer}
+                keyboardShouldPersistTaps="handled"
+              >
                 <View style={styles.logo}>
                   <Image source={appImages.logo} style={AppStyles.Image} />
                 </View>
@@ -104,7 +119,11 @@ const SignIn = ({navigation}) => {
                   <Text style={AppStyles.centerMedium}>
                     Enter your phone number to log in!
                   </Text>
-                  <View style={{marginVertical: responsiveScreenHeight(2)}}>
+                  <View
+                    style={{
+                      marginVertical: responsiveScreenHeight(2),
+                    }}
+                  >
                     <InputField
                       label="Email"
                       placeholder="Please enter your email"
@@ -113,7 +132,7 @@ const SignIn = ({navigation}) => {
                       type="default"
                     />
                     <InputField
-                      label="password"
+                      label="Password"
                       placeholder="Enter your Password"
                       onChangeText={setPassword}
                       value={password}
@@ -138,14 +157,15 @@ const SignIn = ({navigation}) => {
                     onPress={Home}
                   />
                 </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </ScrollView>
-        )}
+                </ScrollView>
+            )}
+          </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
+
 export default SignIn;
 
 const styles = StyleSheet.create({
@@ -168,3 +188,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

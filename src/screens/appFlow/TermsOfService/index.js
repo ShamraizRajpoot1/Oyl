@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,7 +8,8 @@ import {
   Platform,
   TouchableWithoutFeedback,
   StatusBar,
-  ScrollView
+  ScrollView,
+  BackHandler,
 } from 'react-native';
 import Header from '../../../components/Header/Header1';
 import PrivacyText from '../../../components/Text';
@@ -20,6 +21,23 @@ const TermsOfService = ({navigation}) => {
    navigation.goBack();
 
   };
+  const handleBackPress = () => {
+    navigation.goBack();
+     return true;
+   };
+   useEffect(() => {
+     const backHandler = BackHandler.addEventListener(
+       'hardwareBackPress',
+       handleBackPress,
+     );
+     return () => backHandler.remove();
+   }, []);
+  useEffect(() => {
+    navigation.getParent().setOptions({ tabBarStyle: false })
+    return()=>{
+        navigation.getParent().setOptions({ tabBarStyle: true })
+    }
+})
   
   return (
     <>

@@ -62,6 +62,7 @@ const VehicleInfo = ({navigation}) => {
       Toast.show('Please fill in all fields before submitting', Toast.LONG);
       return; 
     }
+    setIsLoading(true)
     const docRef = firestore().collection('Users').doc(user.uid);
 
     docRef.update({
@@ -75,13 +76,14 @@ const VehicleInfo = ({navigation}) => {
     })
         .then(() => {
           console.log('Profile Updated successful');
+          setIsLoading(false)
           Toast.show('Profile Updated successful', Toast.LONG);
           setContinueModalVisible(true);
         })
         .catch(error => {
           Toast.show('Something went wrong', Toast.LONG);
           console.log('Something went wrong', error);
-          Alert.alert("Something went wrong");
+          setIsLoading(false)
         });
     
   };
@@ -141,12 +143,16 @@ const VehicleInfo = ({navigation}) => {
         ) : (
           <ScrollView
             contentContainerStyle={AppStyles.contentContainer}
-            showsVerticalScrollIndicator={false}>
+            showsVerticalScrollIndicator={false} 
+            keyboardShouldPersistTaps="handled"
+            >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.container}>
-                <View style={{flex: 12, backgroundColor: colors.background2}}>
+              <>
+            <View style={{ backgroundColor: colors.background2}}>
                   <Header2 Text="Vehicle Info" />
                 </View>
+              <View style={styles.container}>
+                
                 <View>
                   <Text style={AppStyles.largeBoldText}>
                     Please Enter Details
@@ -239,6 +245,7 @@ const VehicleInfo = ({navigation}) => {
                   )}
                 </View>
               </View>
+              </>
             </TouchableWithoutFeedback>
           </ScrollView>
         )}
@@ -251,14 +258,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background2,
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly'
+    
   },
   button: {
-    flex: 1,
     alignItems: 'center',
   },
   fieldContainer: {
-    flex: 4,
+    
     justifyContent: 'space-evenly',
   },
   toggleimg: {

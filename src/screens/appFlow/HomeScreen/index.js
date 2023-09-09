@@ -29,7 +29,6 @@ import {fontFamily, fontSize} from '../../../services/utilities/fonts';
 import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../../../navigation/AuthProvider';
 import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 const Home = ({navigation}) => {
   const handleBackPress = () => {
     BackHandler.exitApp();
@@ -110,11 +109,12 @@ const Home = ({navigation}) => {
         <ScrollView
           style={{flex: 1}}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
           contentContainerStyle={AppStyles.contentContainer}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <>
-            <View style={{flex: 10, backgroundColor: colors.background2}}>
-              <Header2 style={{flex: 4}} Text="Schedule a Time" />
+            <View style={{ backgroundColor: colors.background2}}>
+              <Header2 Text="Schedule a Time" />
             </View>
             <View style={styles.container}>
               <View style={{flex: 3}}>

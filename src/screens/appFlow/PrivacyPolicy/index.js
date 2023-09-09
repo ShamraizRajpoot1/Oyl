@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
-  TouchableOpacity,
-  StatusBar,
+  BackHandler,
   ScrollView
 } from 'react-native';
 import {
@@ -24,18 +23,25 @@ import { colors } from '../../../services/utilities/colors';
 import { appImages } from '../../../services/utilities/assets';
 
 const PrivacyPolicy = ({navigation}) => {
-  const [isChecked, setIsChecked] = useState(true);
-  const toggleCheckbox = () => {
-    setIsChecked(prevChecked => !prevChecked);
-  };
-  const toggle = {
-    width: scale(12),
-    height: scale(12),
-    borderWidth: 2,
-    borderRadius: 100,
-    borderColor: isChecked ? colors.border6 : colors.border5,
-    backgroundColor: colors.background2,
-  };
+  useEffect(() => {
+    navigation.getParent().setOptions({ tabBarStyle: false })
+    return()=>{
+        navigation.getParent().setOptions({ tabBarStyle: true })
+    }
+})
+
+const handleBackPress = () => {
+  navigation.goBack();
+   return true;
+ };
+ useEffect(() => {
+   const backHandler = BackHandler.addEventListener(
+     'hardwareBackPress',
+     handleBackPress,
+   );
+   return () => backHandler.remove();
+ }, []);
+  
   const back = () => {
     navigation.goBack();
   };
