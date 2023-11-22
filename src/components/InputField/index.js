@@ -17,8 +17,8 @@ import {scale} from 'react-native-size-matters';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {appIcons} from '../../services/utilities/assets';
 import {AppStyles} from '../../services/utilities/AppStyle';
-import { Location, OilType } from '../Modals';
-import { colors } from '../../services/utilities/colors';
+import {Location, OilType} from '../Modals';
+import {colors} from '../../services/utilities/colors';
 
 const InputField = props => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -67,16 +67,25 @@ const InputField = props => {
         <TextInput
           style={[
             AppStyles.smallText,
-            {padding: responsiveScreenHeight(1),marginVertical:props.marginTop , width: '80%',fontFamily: props.fontFamily ,},
+            {
+              padding: responsiveScreenHeight(1),
+              marginVertical: props.marginTop,
+              width: '80%',
+              fontFamily: props.fontFamily,
+            },
           ]}
           placeholder={props.placeholder}
-         
-          placeholderTextColor={props.color? props.color :colors.placeholdar3}
+          placeholderTextColor={props.color ? props.color : colors.placeholdar3}
           onChangeText={props.onChangeText}
-          onFocus={() => {if (props.calendar) { setDatePicker(true)}
-          else if(props.location) {setLocation(true)}
-          else if(props.OilType) {setOilType(true)}
-        }}
+          onFocus={() => {
+            if (props.calendar) {
+              setDatePicker(true);
+            } else if (props.location) {
+              setLocation(true);
+            } else if (props.OilType) {
+              setOilType(true);
+            }
+          }}
           value={props.value}
           keyboardType={props.type}
           secureTextEntry={secureTextEntry && props.secureTextEntry}
@@ -95,22 +104,14 @@ const InputField = props => {
           </TouchableOpacity>
         )}
         {props.location && (
-          <TouchableOpacity
-          onPress={toggleLocation}>
-          <Image
-            style={styles.passwordIcon}
-            source={appIcons.location}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={toggleLocation}>
+            <Image style={styles.passwordIcon} source={appIcons.location} />
+          </TouchableOpacity>
         )}
         {props.OilType && (
-          <TouchableOpacity
-          onPress={toggleOilType}>
-          <Image
-            style={styles.passwordIcon}
-            source={appIcons.oil}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={toggleOilType}>
+            <Image style={styles.passwordIcon} source={appIcons.oil} />
+          </TouchableOpacity>
         )}
       </View>
       {datePicker && (
@@ -122,23 +123,23 @@ const InputField = props => {
         />
       )}
       {location && (
-                <Location
-                  isVisible={location}
-                  onBackdropPress={toggleLocation}
-                  onChangeText={props.onChangeText}
-                  value={props.value}
-                  onPress={toggleLocation}
-                />
-              )}
-              {oilType && (
-                <OilType
-                  isVisible={oilType}
-                  onBackdropPress={toggleOilType}
-                  onChangeText={props.onChangeText}
-                  value={props.value}
-                  onPress={toggleOilType}
-                />
-              )}
+        <Location
+          isVisible={location}
+          onBackdropPress={toggleLocation}
+          onChangeText={props.onChangeText}
+          value={props.value}
+          onPress={toggleLocation}
+        />
+      )}
+      {oilType && (
+        <OilType
+          isVisible={oilType}
+          onBackdropPress={toggleOilType}
+          onChangeText={props.onChangeText}
+          value={props.value}
+          onPress={toggleOilType}
+        />
+      )}
     </View>
   );
 };
@@ -152,7 +153,6 @@ const styles = StyleSheet.create({
     padding: '1%',
     width: '86%',
     elevation: 6,
-    
   },
   calendar: {
     width: responsiveScreenHeight(10),
